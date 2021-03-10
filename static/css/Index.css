@@ -43,6 +43,13 @@ header{
     color: rgb(48, 19, 0);
 }
 
+.Invalid{
+    position: relative;
+    left: 5vw;
+    top:13vh;
+    font-size: 1vw;
+    color: rgba(228, 0, 0, 0.774);
+}
 
 .form-control-plaintext{
     position: relative;
