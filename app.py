@@ -17,7 +17,7 @@ app = Flask(__name__)
 # app.config['MYSQL_DATABASE_DB'] = 'student'
 # app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
-# mysqll = MySQL(app)
+mysqll = MySQL(app)
 
 # @app.route('/',methods=['GET','POST'])
 # def send():
@@ -127,11 +127,11 @@ def login():
         return render_template('show.html',username=username,password=password)
     return render_template('Index.html')
 
-# @app.route('/logout')
-# def logout():
-#     global loggedIn
-#     loggedIn = False
-#     render_template('Index.html')
+@app.route('/logout')
+def logout():
+    global loggedIn
+    loggedIn = False
+    render_template('Index.html')
 
 
 if __name__ == "__main__":
