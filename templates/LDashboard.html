@@ -110,7 +110,37 @@
                 </div>
                 <div class="settingmodel-background Settinghidden"></div>
             </div>
+            <script>
+            const settingsModelBackground = document.querySelector(".settingmodel-background");
+            const settingsModel = document.querySelector(".SettingsListItem");
+            const settingsHidden = document.querySelector(".Settinghidden");
+            const closeSettingsBtn = document.querySelector(".settingmodel-close");
+            const modelSettings = document.querySelector(".settingmodel-mysettings");
+            const changed = document.querySelector(".btnChange");
 
+            function hideSettingsModel() {
+                modelSettings.classList.add("Settinghidden");
+                settingsModelBackground.classList.add("Settinghidden");
+            }
+            
+            function showSettingsModel() {
+                modelSettings.classList.remove("Settinghidden");
+                settingsModelBackground.classList.remove("Settinghidden");
+            }
+
+            settingsModel.addEventListener("click", function () {
+                showSettingsModel();
+            });
+            closeSettingsBtn.addEventListener("click", function () {
+                hideSettingsModel();
+            });
+            settingsModelBackground.addEventListener("click", function () {
+                hideSettingsModel();
+            });
+            changed.addEventListener("click", function () {
+                hideSettingsModel();
+            });
+        </script>
             <div class="container">
                 <div class="row">
                 <div class="col-sm-3">
