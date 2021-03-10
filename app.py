@@ -124,7 +124,7 @@ def login():
                         return render_template('LDashboard.html')
         else:
             return render_template('Index.html')
-        return render_template('show.html',username=username,password=password)
+        return render_template('Index.html',InvalidPassword="Invalid username or password")
     return render_template('Index.html')
 
 @app.route('/logout')

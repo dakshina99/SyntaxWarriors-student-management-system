@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="Application.css" />
+    <link rel="stylesheet" href="CommentBoxStyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://semantic-ui.com/dist/semantic.min.css"
+    />
+
+    <title>Application Form</title>
+  </head>
+  <body class="outer">
+    <div class="Appcontainer">
+      <h1 class="Appheading">Application</h1>
+      <form action="action_page.php">
+        <div class="row">
+          <div class="col-25">
+            <label for="fname"><strong>Assign to</strong></label>
+          </div>
+          <div class="col-75">
+            <input
+              readonly
+              type="text"
+              id="fname"
+              name="firstname"
+              placeholder="Administrator's name.."
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label for="RequestType"><strong>Request Type</strong></label>
+          </div>
+          <div class="col-75">
+            <input
+              readonly
+              type="text"
+              id="RequestType"
+              name="RequestType"
+              placeholder="Request Type.."
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="subject"><strong>Details</strong></label>
+          </div>
+          <div class="col-75">
+            <textarea
+              readonly
+              id="subject"
+              name="subject"
+              placeholder="Explain your request.."
+              style="height: 200px"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname"><strong>Evidence</strong></label>
+          </div>
+          <div class="col-75">
+            <form action="/action_page.php">
+              <div class="choosefile">
+                <button>Download File</button>
+              </div>
+            <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label for="lname"><strong>Request Status</strong></label>
+          </div>
+          <div class="col-75">
+            <input
+              readonly
+              type="text"
+              id="RequestType"
+              name="RequestType"
+            />
+            </div>
+        </form>
+          <div class="row">
+          <div class="col-25">
+            <label for="fname"><strong>Comments</strong></label>
+            </div>
+            <div class="comB">
+              <div id="shouts">
+                <ul>
+                  <li class="shout recieve">Hey, what are you guys doing?</li>
+                  <li class="shout sent">Nothing much, you?</li>
+                </ul>
+              </div>
+              <div id="input">
+                <form>
+                  <input id="input" type="text" name="user" placeholder="Enter Your Message"/>
+                </form>
+              </div>
+            </div>
+        </div>
+      </div>
+      </form>
+      <div class="submitbut">
+        <button class="ui primary button subButton">Submit</button>
+        <button class="ui button">Discard</button>
+      </div>
+    </div>
+  </body>
+</html>
