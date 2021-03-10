@@ -1,4 +1,5 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect
+from flask.helpers import url_for
 from flask_mysqldb import MySQL
 import mysql.connector
 
@@ -16,7 +17,7 @@ app = Flask(__name__)
 # app.config['MYSQL_DATABASE_DB'] = 'student'
 # app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
-#mysql = MySQL(app)
+# mysqll = MySQL(app)
 
 # @app.route('/',methods=['GET','POST'])
 # def send():
@@ -41,17 +42,18 @@ app = Flask(__name__)
 #     processed_text = text.upper()
 #     return processed_text
 
-# @app.route('/',methods = ['GET','POST'])
-# def index():
-#     if request.method == 'POST':
-#         userDetails = request.form
-#         name = userDetails['name']
-#         email = userDetails['email']
-#         cur = mysql.connection.cursor()
-#         cur.execute("INSERT INTO users(name,email) VALUES(%s,%s)",(name,email))
-#         mysql.connection.commit()
-#         cur.close()
-#         return "success"
+@app.route('/application',methods = ['GET','POST'])
+def index():
+    if request.method == 'POST':
+        userDetails = request.form
+        name = userDetails['name']
+        email = userDetails['email']
+        cur = mysqll.connection.cursor()
+        cur.execute("INSERT INTO users(name,email) VALUES(%s,%s)",(name,email))
+        mysqll.connection.commit()
+        cur.close()
+        return "success"
+    return render_template('Application.html')
 
 
 
@@ -106,21 +108,30 @@ dbObj = MySQLClient('localhost','root','','student')
 #print(dbObj.readDataFromTable('student','users'))
 
 @app.route('/',methods=['GET','POST'])
-def send():
+def login():
+    global loggedIn
+    loggedIn = False
     if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
-        for rows in dbObj.readDataFromTable('student','users'):
-            if rows[1]==username and rows[2]==password:
-                if rows[3]==1:
-                    return render_template('SDashboard.html')
-                else:
-                    return render_template('LDashboard.html')
-
-        
+        if not(loggedIn):
+            loggedIn = True
+            username = request.form['username']
+            password = request.form['password']
+            for rows in dbObj.readDataFromTable('student','users'):
+                if rows[1]==username and rows[2]==password:
+                    if rows[3]==1:
+                        return render_template('SDashboard.html')
+                    else:
+                        return render_template('LDashboard.html')
+        else:
+            return render_template('Index.html')
         return render_template('show.html',username=username,password=password)
     return render_template('Index.html')
 
+# @app.route('/logout')
+# def logout():
+#     global loggedIn
+#     loggedIn = False
+#     render_template('Index.html')
 
 
 if __name__ == "__main__":

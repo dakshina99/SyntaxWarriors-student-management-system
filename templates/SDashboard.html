@@ -10,195 +10,197 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-    <header class = "Header1">
-        <h1 class="h1"><strong>Student Request Management System</strong></h1>
-        <div class="pull-right username" id = "username"></div>
-    </header>
-    <ul class="navSettings">
-        <div class="kebabSettings">
-            <figure></figure>
-            <figure class="middle"></figure>
-            <figure></figure>
-            <ul class="dropdownSettings">
-                <li class="SettingsListItem"><a class="SettingsListItem">Change Password</a></li>
-                <li class="SettingsListItem"><a href="Index.html" class="SettingsListItem">Log Out</a></li>
-            </ul>
-        </div>
-    </ul>
-    <div class = "bg kebabHide"></div>
-    <script>
-        var kebab = document.querySelector('.kebabSettings'),
-        middle = document.querySelector('.middle'),
-        cross = document.querySelector('.cross'),
-        bg = document.querySelector('.bg'),
-        header1 = document.querySelector('.Header1'),
-        istog = false;
-        dropdown = document.querySelector('.dropdownSettings');
+    <form method="POST">
+        <header class = "Header1">
+            <h1 class="h1"><strong>Student Request Management System</strong></h1>
+            <div class="pull-right username" id = "username"></div>
+        </header>
+        <ul class="navSettings">
+            <div class="kebabSettings">
+                <figure></figure>
+                <figure class="middle"></figure>
+                <figure></figure>
+                <ul class="dropdownSettings">
+                    <li class="SettingsListItem"><a class="SettingsListItem">Change Password</a></li>
+                    <li class="SettingsListItem" name="logout"><a href="" class="SettingsListItem">Log Out</a></li>
+                </ul>
+            </div>
+        </ul>
+        <div class = "bg kebabHide"></div>
+        <script>
+            var kebab = document.querySelector('.kebabSettings'),
+            middle = document.querySelector('.middle'),
+            cross = document.querySelector('.cross'),
+            bg = document.querySelector('.bg'),
+            header1 = document.querySelector('.Header1'),
+            istog = false;
+            dropdown = document.querySelector('.dropdownSettings');
 
-        function tog(value){
-            if(value){
-                value = false;
-            }else{
-                value = true;
+            function tog(value){
+                if(value){
+                    value = false;
+                }else{
+                    value = true;
+                }
+                return value;
             }
-            return value;
-        }
 
-        kebab.addEventListener('click', function() {
-            istog = tog(istog);
-            if(istog){
-                bg.classList.remove('kebabHide');
-            }
-            middle.classList.toggle('active');
-            dropdown.classList.toggle('active');
-            if(!istog){
-                bg.classList.add('kebabHide');
-            }
-            
-        })
-        bg.addEventListener('click', function(){
-            if(istog){
+            kebab.addEventListener('click', function() {
+                istog = tog(istog);
+                if(istog){
+                    bg.classList.remove('kebabHide');
+                }
                 middle.classList.toggle('active');
                 dropdown.classList.toggle('active');
-                bg.classList.add('kebabHide');
-                istog = false;
-            }
-        })
-        header1.addEventListener('click', function(){
-            if(istog){
-                middle.classList.toggle('active');
-                dropdown.classList.toggle('active');
-                istog = false;
-            }
-        })
-    </script>
+                if(!istog){
+                    bg.classList.add('kebabHide');
+                }
+                
+            })
+            bg.addEventListener('click', function(){
+                if(istog){
+                    middle.classList.toggle('active');
+                    dropdown.classList.toggle('active');
+                    bg.classList.add('kebabHide');
+                    istog = false;
+                }
+            })
+            header1.addEventListener('click', function(){
+                if(istog){
+                    middle.classList.toggle('active');
+                    dropdown.classList.toggle('active');
+                    istog = false;
+                }
+            })
+        </script>
 
-    <div class="all">
-        <div class="mainSettings">
-            <div class="settingmodel-mysettings Settinghidden">
-                <input class="settingmodel-close"type="button" value="&times;">
-                <div><h3 id="settingTit"><strong>Change Password</strong></h3></div>
-                <div class="setrow">
-                    <label class="lab"><strong>Username</strong></label>
-                    <div>
-                        <input type="text" readonly class="box1 fixed1" id="username2" value="username.123">
+        <div class="all">
+            <div class="mainSettings">
+                <div class="settingmodel-mysettings Settinghidden">
+                    <input class="settingmodel-close"type="button" value="&times;">
+                    <div><h3 id="settingTit"><strong>Change Password</strong></h3></div>
+                    <div class="setrow">
+                        <label class="lab"><strong>Username</strong></label>
+                        <div>
+                            <input type="text" readonly class="box1 fixed1" id="username2" value="username.123">
+                        </div>
                     </div>
-                </div>
-                <div class="setrow">
-                    <label class="lab"><strong>Old Password</strong></label>
-                    <div>
-                        <input type="password" class="box1" id="OldPassword">
+                    <div class="setrow">
+                        <label class="lab"><strong>Old Password</strong></label>
+                        <div>
+                            <input type="password" class="box1" id="OldPassword">
+                        </div>
                     </div>
-                </div>
-                <div class="setrow">
-                    <label class="lab"><strong>New Password</strong></label>
-                    <div>
-                        <input type="password" class="box1" id="NewPassword">
+                    <div class="setrow">
+                        <label class="lab"><strong>New Password</strong></label>
+                        <div>
+                            <input type="password" class="box1" id="NewPassword">
+                        </div>
                     </div>
-                </div>
-                <div class="setrow">
-                    <label class="lab"><strong>Confirm Password</strong></label>
-                    <div>
-                        <input type="password" class="box1" id="ConfirmPassword">
+                    <div class="setrow">
+                        <label class="lab"><strong>Confirm Password</strong></label>
+                        <div>
+                            <input type="password" class="box1" id="ConfirmPassword">
+                        </div>
                     </div>
+                    <button type="submit" class="btnChange"><strong>Change</strong></button>
                 </div>
-                <button type="submit" class="btnChange"><strong>Change</strong></button>
+                <div class="settingmodel-background Settinghidden"></div>
             </div>
-            <div class="settingmodel-background Settinghidden"></div>
-        </div>
 
-        <div class="container">
-            <div class="row">
-            <div class="col-sm-3">
-                <input class="btn btn-danger btn-block btn-compose-email" id="newSubmission" type = "button" value="New Submission">
-                <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
-                    <li class="active">
-                        <a href="#mail-inbox.html">
-                            <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1"></span>
-                        </a>
-                    </li>
-                </ul><!-- /.nav -->
-            </div>
-            <div class="col-sm-9">
-                <div class="panel rounded shadow panel-teal">
-                    <div class="panel-heading">
-                        <div class="pull-left">
-                            <h3 class="panel-title" id="unreadLab2"></h3>
+            <div class="container">
+                <div class="row">
+                <div class="col-sm-3">
+                    <input class="btn btn-danger btn-block btn-compose-email" id="newSubmission" type = "button" value="New Submission">
+                    <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
+                        <li class="active">
+                            <a href="#mail-inbox.html">
+                                <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1"></span>
+                            </a>
+                        </li>
+                    </ul><!-- /.nav -->
+                </div>
+                <div class="col-sm-9">
+                    <div class="panel rounded shadow panel-teal">
+                        <div class="panel-heading">
+                            <div class="pull-left">
+                                <h3 class="panel-title" id="unreadLab2"></h3>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-sub-heading inner-all">
+                            <div class="pull-left">
+                                <ul class="list-inline no-margin">
+                                    <li>
+                                        <div class="btn-group" id = "del">
+                                            <button class="btn btn-default btn-sm tooltips" type="button" data-toggle="tooltip" data-container="body" title="" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="pull-right">
+                                <ul class="list-inline no-margin">
+                                    <li>
+                                        <div class="btn-group">
+                                            <a href="#" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i></a>
+                                            <a href="#" class="btn btn-sm btn-default"><i class="fa fa-angle-right"></i></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
-                    </div><!-- /.panel-heading -->
-                    <div class="panel-sub-heading inner-all">
-                        <div class="pull-left">
-                            <ul class="list-inline no-margin">
-                                <li>
-                                    <div class="btn-group" id = "del">
-                                        <button class="btn btn-default btn-sm tooltips" type="button" data-toggle="tooltip" data-container="body" title="" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="pull-right">
-                            <ul class="list-inline no-margin">
-                                <li>
-                                    <div class="btn-group">
-                                        <a href="#" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i></a>
-                                        <a href="#" class="btn btn-sm btn-default"><i class="fa fa-angle-right"></i></a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="panel-body no-padding">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-email">
-                                <tbody id="text">
-                                    <tr class="unread">
-                                        <td>
-                                            <div class="ckbox ckbox-theme">
-                                                <input id="checkbox1" type="checkbox" checked="checked" class="mail-checkbox">
-                                                <label for="checkbox1"></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <h4 class="text-primary">Sulochana Sooriyaarachchi</h4>
-                                                    <p class="email-summary">Late add/drop Request</p>
-                                                    <span class="media-meta">Today at 1:13am</span>
+                        <div class="panel-body no-padding">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-email">
+                                    <tbody id="text">
+                                        <tr class="unread">
+                                            <td>
+                                                <div class="ckbox ckbox-theme">
+                                                    <input id="checkbox1" type="checkbox" checked="checked" class="mail-checkbox">
+                                                    <label for="checkbox1"></label>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="ckbox ckbox-theme">
-                                                <input id="checkbox1" type="checkbox" class="mail-checkbox">
-                                                <label for="checkbox1"></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <h4 class="text-primary">Vishaka Nanayakkara</h4>
-                                                    <p class="email-summary">Repeat exams As First Attempt with the next batch</p>
-                                                    <span class="media-meta">Feb 28</span>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="text-primary">Sulochana Sooriyaarachchi</h4>
+                                                        <p class="email-summary">Late add/drop Request</p>
+                                                        <span class="media-meta">Today at 1:13am</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="ckbox ckbox-theme">
+                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox">
+                                                    <label for="checkbox1"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="text-primary">Vishaka Nanayakkara</h4>
+                                                        <p class="email-summary">Repeat exams As First Attempt with the next batch</p>
+                                                        <span class="media-meta">Feb 28</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <script src="{{url_for('static',filename='Sdashboard1.js')}}"></script>
 </body>
 </html>
