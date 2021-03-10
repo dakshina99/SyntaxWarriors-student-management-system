@@ -102,13 +102,16 @@
             <label for="lname"><strong>Request Status</strong></label>
           </div>
           <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="RequestType"
-              name="RequestType"
-            />
-            </div>
+            <select id="RequestType" name="RequestType">
+              <option id="selectOption" value="" disabled selected hidden>
+                -Select-
+              </option>
+              <option value="Accepted">Accepted</option>
+              <option value="Declined">
+               Declined
+              </option>
+            </select> 
+          </div>
         </form>
           <div class="row">
           <div class="col-25">

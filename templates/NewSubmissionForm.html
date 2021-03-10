@@ -57,7 +57,7 @@ input[type="submit"] {
 .Appcontainer {
   border-radius: 10px;
   background-color: #f2f2f2;
-  height: 17cm;
+  height: 20cm;
   width: 16cm;
   margin: auto;
   margin-top: 1cm;
@@ -124,6 +124,28 @@ input[type="submit"] {
       <h1 class="Appheading">Application</h1>
       <form action="action_page.php">
         <div class="row">
+          <div class="col-25">
+            <label for="fname"><strong>Name</strong></label>
+          </div>
+          <div class="col-75">
+            <input
+              type="text"
+              id="fname"
+              name="firstname"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div class="col-25">
+            <label for="fname"><strong>Index No.</strong></label>
+          </div>
+          <div class="col-75">
+            <input
+              readonly
+              type="text"
+              id="fname"
+              name="firstname"
+            />
+          </div>
           <div class="col-25">
             <label for="fname"><strong>Assign to</strong></label>
           </div>
