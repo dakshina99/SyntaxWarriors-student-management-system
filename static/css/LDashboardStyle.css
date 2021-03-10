@@ -49,8 +49,8 @@ body{padding:0;
   * ======================================================================== */
   .settingmodel-mysettings {
     background-color: #f2f2f2;
-    width: 40vw;
-    height: 50vh;
+    width: 550px;
+    height: 350px;
     padding: 10px;
     padding-left:30px;
     padding-bottom:50px;
@@ -70,7 +70,7 @@ body{padding:0;
   }
   
   .settingmodel-background {
-    background-color: rgba(214, 214, 214, 0.452);
+    background-color: rgba(0, 0, 0, 0.452);
     width: 100%;
     height: 100%;
   
@@ -83,15 +83,14 @@ body{padding:0;
     z-index: 1;
   }
   .box1{
-    width: 20vw;
+    width: 340px;
     border-radius: 0.15cm;
-    height:5vh;
+    height:35px;
     font-size: 15px;
     position:absolute;
     left:30%;
     outline:none;
     border: 1px solid #515152a9;
-    shadow:none;
   }
   .setrow{
     height:17%;
@@ -101,7 +100,6 @@ body{padding:0;
     display:inline-block;
     float:left;
     text-align:left;
-    width:10vw;
     padding-top:12px;
   }
   #settingTit{
@@ -128,11 +126,11 @@ body{padding:0;
   
   .btnChange {
     position: absolute;
-    right: 20%;
-    bottom: 10%;
+    right: 45px;
+    bottom: 30px;
     border-radius: 0.2cm;
-    width: 6vw;
-    height: 5vh;
+    width: 90px;
+    height: 37px;
     font-size: 16px;
     color: #eee;
     background-color: #37BC9B;
@@ -145,10 +143,17 @@ body{padding:0;
   .btnChange:active{
     transform: translateY(2px);
   }
+  
+  .warnning{
+    color: rgb(146, 0, 0);
+    font-size: 16px;
+    margin-top:0.1cm;
+    margin-left: 3.7cm;
+  }
+  
   .Settinghidden{
     display:none;
   }
-  
   /* ========================================================================*/
   
   .kebabSettings figure {
