@@ -120,112 +120,115 @@ input[type="submit"] {
     </style>
   </head>
   <body class="outer">
-    <div class="Appcontainer">
-      <h1 class="Appheading">Application</h1>
-      <form action="action_page.php">
-        <div class="row">
-          <div class="col-25">
-            <label for="fname"><strong>Name</strong></label>
+    <form method="POST">
+      <div class="Appcontainer">
+        <h1 class="Appheading">Application</h1>
+        <form action="action_page.php">
+          <div class="row">
+            <div class="col-25">
+              <label for="fname"><strong>Name</strong></label>
+            </div>
+            <div class="col-75">
+              <input
+                type="text"
+                id="fname"
+                name="studentName"
+                placeholder="Enter your name"
+              />
+            </div>
+            <div class="col-25">
+              <label for="fname"><strong>Index No.</strong></label>
+            </div>
+            <div class="col-75">
+              <input
+                readonly
+                type="text"
+                id="fname"
+                name="studentId"
+                value={{studentAdmissionNum}}
+              />
+            </div>
+            <div class="col-25">
+              <label for="fname"><strong>Assign to</strong></label>
+            </div>
+            <div class="col-75">
+              <input
+                type="text"
+                id="fname"
+                name="staffName"
+                placeholder="Administrator's name.."
+              />
+            </div>
           </div>
-          <div class="col-75">
-            <input
-              type="text"
-              id="fname"
-              name="firstname"
-              placeholder="Enter your name"
-            />
-          </div>
-          <div class="col-25">
-            <label for="fname"><strong>Index No.</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="fname"
-              name="firstname"
-            />
-          </div>
-          <div class="col-25">
-            <label for="fname"><strong>Assign to</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              type="text"
-              id="fname"
-              name="firstname"
-              placeholder="Administrator's name.."
-            />
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-25">
-            <label for="RequestType"><strong>Request Type</strong></label>
+          <div class="row">
+            <div class="col-25">
+              <label for="RequestType"><strong>Request Type</strong></label>
+            </div>
+            <div class="col-75">
+              <select id="RequestType" name="RequestType">
+                <option id="selectOption" value="" disabled selected hidden>
+                  -Select-
+                </option>
+                <option value="Late">Late add/drop requests</option>
+                <option value="first">
+                  Repeat exams as first attempt with the next batch
+                </option>
+                <option value="Extend">
+                  Extend assignment submission deadlines
+                </option>
+                <option value="Rearrange">Rearrange of practical</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
-          <div class="col-75">
-            <select id="RequestType" name="RequestType">
-              <option id="selectOption" value="" disabled selected hidden>
-                -Select-
-              </option>
-              <option value="Late">Late add/drop requests</option>
-              <option value="first">
-                Repeat exams as first attempt with the next batch
-              </option>
-              <option value="Extend">
-                Extend assignment submission deadlines
-              </option>
-              <option value="Rearrange">Rearrange of practical</option>
-              <option value="Other">Other</option>
-            </select>
+          <div class="row">
+            <div class="col-25">
+              <label for="subject"><strong>Details</strong></label>
+            </div>
+            <div class="col-75">
+              <textarea
+                id="subject"
+                name="subject"
+                placeholder="Explain your request.."
+                style="height: 200px"
+              ></textarea>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="subject"><strong>Details</strong></label>
+          <div class="row">
+            <div class="col-25">
+              <label for="lname"><strong>Evidence</strong></label>
+            </div>
+            <div class="col-75">
+              <form action="/action_page.php">
+                <div class="choosefile">
+                  <input type="file" id="myFile" name="filename" />
+                </div>
+              </form>
+              <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
+            </div>
           </div>
-          <div class="col-75">
-            <textarea
-              id="subject"
-              name="subject"
-              placeholder="Explain your request.."
-              style="height: 200px"
-            ></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="lname"><strong>Evidence</strong></label>
-          </div>
-          <div class="col-75">
-            <form action="/action_page.php">
-              <div class="choosefile">
-                <input type="file" id="myFile" name="filename" />
-              </div>
-            </form>
-            <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-25">
-            <label for="lname"><strong>Request Status</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="lname"
-              name="lastname"
-              placeholder=""
-            />
-          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="lname"><strong>Request Status</strong></label>
+            </div>
+            <div class="col-75">
+              <input
+                readonly
+                type="text"
+                id="lname"
+                name="lastname"
+                placeholder=""
+              />
+            </div>
+        </div>
+        </form>
+        <div class="submitbut">
+          <button class="ui primary button subButton" value="apply" name="apply">Submit</button>
+          <button class="ui button" value="discard" name="discard">Discard</button>
+        </div>
       </div>
-      </form>
-      <div class="submitbut">
-        <button class="ui primary button subButton">Submit</button>
-        <button class="ui button">Discard</button>
-      </div>
-    </div>
+    </form>
   </body>
 </html>

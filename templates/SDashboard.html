@@ -22,7 +22,7 @@
                 <figure></figure>
                 <ul class="dropdownSettings">
                     <li class="SettingsListItem"><a class="SettingsListItem">Change Password</a></li>
-                    <li class="SettingsListItem" name="logout"><a href="" class="SettingsListItem">Log Out</a></li>
+                    <li class="SettingsListItem" name="logout"><a href="/logout" class="SettingsListItem">Log Out</a></li>
                 </ul>
             </div>
         </ul>
@@ -82,31 +82,31 @@
                     <div class="setrow">
                         <label class="lab"><strong>Username</strong></label>
                         <div>
-                            <input type="text" readonly class="box1 fixed1" id="username2" value="username.123">
+                            <input type="text" readonly class="box1 fixed1" id="username2" value={{username}}>
                         </div>
                     </div>
                     <div class="setrow">
                         <label class="lab"><strong>Old Password</strong></label>
                         <div>
-                            <input type="password" class="box1" id="OldPassword">
+                            <input type="password" class="box1" id="OldPassword" name="OldPassword">
                         </div>
                     </div>
                     <div class="setrow">
                         <label class="lab"><strong>New Password</strong></label>
                         <div>
-                            <input type="password" class="box1" id="NewPassword">
+                            <input type="password" class="box1" id="NewPassword" name="NewPassword">
                         </div>
                     </div>
                     <div class="setrow">
                         <label class="lab"><strong>Confirm Password</strong></label>
                         <div>
-                            <input type="password" class="box1" id="ConfirmPassword">
+                            <input type="password" class="box1" id="ConfirmPassword" name="ConfirmPassword">
                         </div>
                     </div>
                     <div class="warnning">
-                        Invalid password
+                        {{errorMessage}}
                     </div>
-                    <button type="submit" class="btnChange"><strong>Change</strong></button>
+                    <button type="submit" class="btnChange" name="changePassword" value="changePassword"><strong>Change</strong></button>
                 </div>
                 <div class="settingmodel-background Settinghidden"></div>
             </div>
@@ -145,7 +145,7 @@
             <div class="container">
                 <div class="row">
                 <div class="col-sm-3">
-                    <input class="btn btn-danger btn-block btn-compose-email" id="newSubmission" type = "button" value="New Submission">
+                    <input class="btn btn-danger btn-block btn-compose-email" id="newSubmission" type = "submit" value="New Submission" name="New Submission">
                     <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
                         <li class="active">
                             <a href="#mail-inbox.html">

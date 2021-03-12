@@ -1,10 +1,11 @@
-from flask import Flask,render_template,request,redirect
+from flask import Flask,render_template,request,redirect,session,g
 from flask.helpers import url_for
 from flask_mysqldb import MySQL
-import mysql.connector
+
+from mysqlConnector import MySQLClient
 
 app = Flask(__name__)
-
+app.secret_key="hello"
 #Configure db
 # db = yaml.load(open('db.yaml'))
 # app.config['MYSQL_HOST'] = db['mysql_host']
@@ -12,12 +13,12 @@ app = Flask(__name__)
 # app.config['MYSQL_PASSWORD'] = db['mysql_password']
 # app.config['MYSQL_DB'] = db['mysql_db']
 
-# app.config['MYSQL_DATABASE_USER'] = 'check'
+#app.config['MYSQL_DATABASE_USER'] = 'check'
 # app.config['MYSQL_DATABASE_PASSWORD'] = 'check'
 # app.config['MYSQL_DATABASE_DB'] = 'student'
 # app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
-mysqll = MySQL(app)
+#mysqll = MySQL(app)
 
 # @app.route('/',methods=['GET','POST'])
 # def send():
@@ -35,103 +36,132 @@ mysqll = MySQL(app)
 #     cursor.execute("SELECT * from users")
 #     data = cursor.fetchone()
 #     return data
-
+ 
 # @app.route('/', methods=['POST'])
 # def my_form_post():
 #     text = request.form['test']
 #     processed_text = text.upper()
 #     return processed_text
 
-@app.route('/application',methods = ['GET','POST'])
-def index():
-    if request.method == 'POST':
-        userDetails = request.form
-        name = userDetails['name']
-        email = userDetails['email']
-        cur = mysqll.connection.cursor()
-        cur.execute("INSERT INTO users(name,email) VALUES(%s,%s)",(name,email))
-        mysqll.connection.commit()
-        cur.close()
-        return "success"
-    return render_template('Application.html')
-
-
-
-
-class MySQLClient:
-
-    def __init__(self, host, user, password, database):
-        self.host = host
-        self.user = user
-        self.password = password
-        self.database = database
-        self.connection = mysql.connector.connect(host = host,
-             user = user,
-             password = password,
-             database = database,
-             auth_plugin='mysql_native_password')
-
-    def converByteStringToString(self,byteString):
-        return byteString.decode("utf-8")
-
-    # Queries for databases
-    def showDatabases(self):
-        cursor = self.connection.cursor()
-        # Execute the query
-        cursor.execute("SHOW DATABASES")
-        return cursor.fetchall()
-
-    def useDatabase(self,dbName):
-        # Enter to database
-        cursor = self.connection.cursor()
-        # Execute the query
-        cursor.execute("USE {}".format(dbName))
-        print('Database entering is successful')
-
-    def showTables(self,dbName):
-        # Show tabales inside the database
-        cursor = self.connection.cursor()
-        # Execute the query
-        cursor.execute('USE {}'.format(dbName))
-        cursor.execute('SHOW TABLES')
-        return cursor.fetchall()
-
-    def readDataFromTable(self,dbName,tableName):
-        # Read data from a table
-        cursor = self.connection.cursor()
-        # Execute the query
-        cursor.execute('SELECT * FROM {}.{}'.format(dbName,tableName))
-        return cursor.fetchall()
-
-dbObj = MySQLClient('localhost','root','','student')
-
-#print(dbObj.readDataFromTable('student','users'))
-
+#Login page
 @app.route('/',methods=['GET','POST'])
+@app.route('/login',methods=['GET','POST'])
 def login():
-    global loggedIn
-    loggedIn = False
     if request.method == "POST":
-        if not(loggedIn):
-            loggedIn = True
+        session.pop('user',None)
+        if 'user' not in session:
             username = request.form['username']
             password = request.form['password']
+            session['user']=username
+
+            dbObj = MySQLClient('localhost','root','','student')
+
             for rows in dbObj.readDataFromTable('student','users'):
                 if rows[1]==username and rows[2]==password:
                     if rows[3]==1:
-                        return render_template('SDashboard.html')
+                        return redirect(url_for("student",username=username))
                     else:
-                        return render_template('LDashboard.html')
+                        return redirect(url_for("staff",username=username))
         else:
-            return render_template('Index.html')
+            return redirect(url_for('login'))
         return render_template('Index.html',InvalidPassword="Invalid username or password")
-    return render_template('Index.html')
+    return render_template('Index.html',InvalidPassword="")
+
+#check user before every request
+@app.before_request
+def before_request():
+    g.user=None
+    if 'user' in session:
+        g.user=session['user']
+    if 'user' not in session and request.endpoint != 'login':
+        return redirect(url_for('login'))
+    
+    
+
+
+@app.route('/student',methods=['GET','POST'])
+def student():
+    username=request.args.get('username')
+
+    if 'user' in session:
+        if request.method == "POST":
+            dbObj = MySQLClient('localhost','root','','student')
+            #for new submission button
+            studentId=dbObj.searchDataFromStudentTable('students',username)[0][3]
+            if request.form.get("New Submission"):
+                return redirect(url_for('newSubmission',username=username,studentId=studentId))
+            #for change password in students profiles
+            if request.form.get("changePassword"):
+                oldPassword = request.form['OldPassword']
+                newPassword = request.form['NewPassword']
+                confirmPassword = request.form['ConfirmPassword']
+                
+                previousPassword=dbObj.searchDataFromStudentTable('students',username)[0][1]
+                if oldPassword==previousPassword and newPassword==confirmPassword and newPassword!="":
+                    dbObj.update_Studentdata('students',username,newPassword)
+                    dbObj.update_Userdata('users',username,newPassword)
+                else:
+                    return render_template('SDashboard.html',username=username,errorMessage="Invalid password")
+                
+        return render_template('SDashboard.html',username=username,errorMessage="")
+    else:
+        redirect(url_for('logout'))
+
+@app.route('/staff',methods=['GET','POST'])
+def staff():
+    # global loggedIn
+    username=request.args.get('username')
+    if 'user' in session:
+        if request.method == "POST":
+            dbObj = MySQLClient('localhost','root','','student')
+
+             #for change password in staff profiles
+            if request.form.get("changePassword"):
+                oldPassword = request.form['OldPassword']
+                newPassword = request.form['NewPassword']
+                confirmPassword = request.form['ConfirmPassword']
+                
+                previousPassword=dbObj.searchDataFromStaffTable('administrators',username)[0][1]
+                if oldPassword==previousPassword and newPassword==confirmPassword and newPassword!="":
+                    dbObj.update_Staffdata('administrators',username,newPassword)
+                    dbObj.update_Userdata('users',username,newPassword)
+                else:
+                    return render_template('LDashboard.html',username=username,errorMessage="Invalid password")
+
+
+        return render_template('LDashboard.html',username=request.args.get('username'))
+    else:
+        redirect(url_for('logout'))
+
+
+#for new submissions 
+@app.route('/application',methods = ['GET','POST'])
+def newSubmission():
+    username=request.args.get('username')
+    studentAdmissionNum=request.args.get('studentId')
+    if request.method == 'POST':        
+        userDetails = request.form
+        name =userDetails['studentName']
+        lecturer = userDetails['staffName']
+        requestType = userDetails['RequestType']
+        details = userDetails['subject']
+        #evidence = file
+
+        if userDetails.get('apply'):
+            dbObj = MySQLClient('localhost','root','','moodle')
+            staffId=dbObj.searchDataFromStaffTable('administrators',username)[0][0]
+            studentId=dbObj.searchDataFromStaffTable('administrators',username)[0][0]
+            #dbObj.insert_applicationData('applications','1','1',details,'evidence',studentId,staffId,requestType)
+            return redirect(url_for('student',username=username))
+        elif userDetails.get('discard'):
+            return redirect(url_for('student',username=username))
+    return render_template('NewSubmissionForm.html',studentAdmissionNum=studentAdmissionNum)
+
 
 @app.route('/logout')
 def logout():
-    global loggedIn
-    loggedIn = False
-    render_template('Index.html')
+    session.pop('user',None)
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
