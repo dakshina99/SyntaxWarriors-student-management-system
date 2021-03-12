@@ -141,16 +141,16 @@ def newSubmission():
     studentAdmissionNum=request.args.get('studentId')
     if request.method == 'POST':        
         userDetails = request.form
-        name =userDetails['studentName']
-        lecturer = userDetails['staffName']
-        requestType = userDetails['RequestType']
-        details = userDetails['subject']
-        #evidence = file
 
         if userDetails.get('apply'):
-            dbObj = MySQLClient('localhost','root','','moodle')
-            staffId=dbObj.searchDataFromStaffTable('administrators',username)[0][0]
-            studentId=dbObj.searchDataFromStaffTable('administrators',username)[0][0]
+            name =userDetails['studentName']
+            lecturer = userDetails['staffName']
+            requestType = userDetails['RequestType']
+            details = userDetails['subject']
+            #evidence = file
+            dbObj = MySQLClient('localhost','root','','student')
+            staffId=dbObj.searchDataFromStaffTable('administrators',lecturer)[0][0]
+            studentId=dbObj.searchDataFromStudentTable('students',username)[0][0]
             #dbObj.insert_applicationData('applications','1','1',details,'evidence',studentId,staffId,requestType)
             return redirect(url_for('student',username=username))
         elif userDetails.get('discard'):
