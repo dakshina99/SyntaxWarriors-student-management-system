@@ -147,7 +147,7 @@
                     <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
                         <li class="active">
                             <a>
-                                <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1"></span>
+                                <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1">{{length}}</span>
                             </a>
                         </li>
                         <li class="active filters1">
@@ -229,10 +229,12 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="panel-body no-padding">
+                            
                             <div class="table-responsive">
                                 <table class="table table-hover table-email">
                                     <tbody id="text">
                                         <tr class="unread">
+                                            {% for application in applications %}
                                             <td>
                                                 <div class="ckbox ckbox-theme">
                                                     <input id="checkbox1" type="checkbox" checked="checked" class="mail-checkbox">
@@ -244,13 +246,14 @@
                                             <td>
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="text-primary">Nuwan Deshapriya</h4>
-                                                        <p class="email-summary">Late add/drop Request</p>
+                                                        <h4 class="text-primary">{{application[0]}}</h4>
+                                                        <p class="email-summary">{{application[1]}}</p>
                                                         <span class="media-meta">Today at 1:13am</span>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
+                                        {% endfor %}
                                         <tr>
                                             <td>
                                                 <div class="ckbox ckbox-theme">
@@ -273,12 +276,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-    <script src="{{url_for('static',filename='LDashboard1.js')}}"></script>
 </body>
 </html>

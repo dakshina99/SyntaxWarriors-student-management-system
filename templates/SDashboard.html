@@ -21,7 +21,7 @@
                 <figure class="middle"></figure>
                 <figure></figure>
                 <ul class="dropdownSettings">
-                    <li class="SettingsListItem"><a class="SettingsListItem">Change Password</a></li>
+                    <li class="SettingsListItem" name="changePasswords"><a class="SettingsListItem" href="/change">Change Password</a></li>
                     <li class="SettingsListItem" name="logout"><a href="/logout" class="SettingsListItem">Log Out</a></li>
                 </ul>
             </div>
@@ -77,7 +77,7 @@
         <div class="all">
             <div class="mainSettings">
                 <div class="settingmodel-mysettings Settinghidden">
-                    <input class="settingmodel-close"type="button" value="&times;">
+                    <input class="settingmodel-close"type="button" value="&times;" name="settings">
                     <div><h3 id="settingTit"><strong>Change Password</strong></h3></div>
                     <div class="setrow">
                         <label class="lab"><strong>Username</strong></label>
@@ -110,37 +110,7 @@
                 </div>
                 <div class="settingmodel-background Settinghidden"></div>
             </div>
-            <script>
-            const settingsModelBackground = document.querySelector(".settingmodel-background");
-            const settingsModel = document.querySelector(".SettingsListItem");
-            const settingsHidden = document.querySelector(".Settinghidden");
-            const closeSettingsBtn = document.querySelector(".settingmodel-close");
-            const modelSettings = document.querySelector(".settingmodel-mysettings");
-            const changed = document.querySelector(".btnChange");
-
-            function hideSettingsModel() {
-                modelSettings.classList.add("Settinghidden");
-                settingsModelBackground.classList.add("Settinghidden");
-            }
             
-            function showSettingsModel() {
-                modelSettings.classList.remove("Settinghidden");
-                settingsModelBackground.classList.remove("Settinghidden");
-            }
-
-            settingsModel.addEventListener("click", function () {
-                showSettingsModel();
-            });
-            closeSettingsBtn.addEventListener("click", function () {
-                hideSettingsModel();
-            });
-            settingsModelBackground.addEventListener("click", function () {
-                hideSettingsModel();
-            });
-            changed.addEventListener("click", function () {
-                hideSettingsModel();
-            });
-        </script>
 
             <div class="container">
                 <div class="row">
@@ -149,7 +119,7 @@
                     <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
                         <li class="active">
                             <a href="#mail-inbox.html">
-                                <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1"></span>
+                                <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1">{{length}}</span>
                             </a>
                         </li>
                     </ul><!-- /.nav -->
@@ -187,26 +157,28 @@
                         <div class="panel-body no-padding">
                             <div class="table-responsive">
                                 <table class="table table-hover table-email">
-                                    <tbody id="text">
-                                        <tr class="unread">
-                                            <td>
-                                                <div class="ckbox ckbox-theme">
-                                                    <input id="checkbox1" type="checkbox" checked="checked" class="mail-checkbox">
-                                                    <label for="checkbox1"></label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <h4 class="text-primary">Sulochana Sooriyaarachchi</h4>
-                                                        <p class="email-summary">Late add/drop Request</p>
-                                                        <span class="media-meta">Today at 1:13am</span>
+                                    <tbody id="text">                                        
+                                            <tr class="unread">
+                                                {% for application in applications %}
+                                                <td>
+                                                    <div class="ckbox ckbox-theme">
+                                                        <input id="checkbox1" type="checkbox" checked="checked" class="mail-checkbox">
+                                                        <label for="checkbox1"></label>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <h4 class="text-primary">{{application[0]}}</h4>
+                                                            <p class="email-summary">{{application[1]}}</p>
+                                                            <span class="media-meta">Today at 1:13am</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr> 
+                                            {% endfor %}                                   
                                         <tr>
                                             <td>
                                                 <div class="ckbox ckbox-theme">
@@ -235,6 +207,6 @@
             </div>
         </div>
     </form>
-    <script src="{{url_for('static',filename='Sdashboard1.js')}}"></script>
+    
 </body>
 </html>

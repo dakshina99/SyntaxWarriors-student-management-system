@@ -120,7 +120,7 @@ input[type="submit"] {
     </style>
   </head>
   <body class="outer">
-    <form method="POST">
+    <form method="POST" action="/upload" enctype="multipart/form-data">
       <div class="Appcontainer">
         <h1 class="Appheading">Application</h1>
         <form action="action_page.php">
@@ -170,15 +170,15 @@ input[type="submit"] {
                 <option id="selectOption" value="" disabled selected hidden>
                   -Select-
                 </option>
-                <option value="Late">Late add/drop requests</option>
-                <option value="first">
+                <option value="1">Late add/drop requests</option>
+                <option value="2">
                   Repeat exams as first attempt with the next batch
                 </option>
-                <option value="Extend">
+                <option value="3">
                   Extend assignment submission deadlines
                 </option>
-                <option value="Rearrange">Rearrange of practical</option>
-                <option value="Other">Other</option>
+                <option value="4">Rearrange of practical</option>
+                <option value="5">Other</option>
               </select>
             </div>
           </div>
@@ -195,6 +195,7 @@ input[type="submit"] {
               ></textarea>
             </div>
           </div>
+          <form method="POST" action="/upload" enctype="multipart/form-data">
           <div class="row">
             <div class="col-25">
               <label for="lname"><strong>Evidence</strong></label>
@@ -202,12 +203,15 @@ input[type="submit"] {
             <div class="col-75">
               <form action="/action_page.php">
                 <div class="choosefile">
-                  <input type="file" id="myFile" name="filename" />
+                  <form method="POST" action="/upload" enctype="multipart/form-data">
+                    <input type="file" id="myFile" name="filename" />
+                  </form>
                 </div>
               </form>
               <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
             </div>
           </div>
+          </form>
 
           <div class="row">
             <div class="col-25">
@@ -225,7 +229,7 @@ input[type="submit"] {
         </div>
         </form>
         <div class="submitbut">
-          <button class="ui primary button subButton" value="apply" name="apply">Submit</button>
+          <button class="ui primary button subButton" value="apply" name="apply"> Submit</button>
           <button class="ui button" value="discard" name="discard">Discard</button>
         </div>
       </div>
