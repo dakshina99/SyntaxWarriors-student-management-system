@@ -162,7 +162,7 @@
                                                 {% for application in applications %}
                                                 <td>
                                                     <div class="ckbox ckbox-theme">
-                                                        <input id="checkbox1" type="checkbox"  class="mail-checkbox">
+                                                        <input id="checkbox1" type="checkbox"  class="mail-checkbox" name={{application[0]}}>
                                                         <label for="checkbox1"></label>
                                                     </div>
                                                 </td>
@@ -171,8 +171,8 @@
                                                 <td>
                                                     <div class="media">
                                                         <div class="media-body">
-                                                            <h4 class="text-primary">{{application[0]}}</h4>
-                                                            <p class="email-summary">{{application[1]}}</p>
+                                                            <h4 class="text-primary">{{application[1]}}</h4>
+                                                            <p class="email-summary">{{application[2]}}</p>
                                                             <span class="media-meta">Today at 1:13am</span>
                                                         </div>
                                                     </div>
@@ -182,7 +182,7 @@
                                         <tr>
                                             <td>
                                                 <div class="ckbox ckbox-theme">
-                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox">
+                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox" name="go">
                                                     <label for="checkbox1"></label>
                                                 </div>
                                             </td>

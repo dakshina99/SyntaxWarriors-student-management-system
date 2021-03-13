@@ -21,7 +21,7 @@
                 <figure class="middle"></figure>
                 <figure></figure>
                 <ul class="dropdownSettings">
-                    <li class="SettingsListItem"><a class="SettingsListItem">Change Password</a></li>
+                    <li class="SettingsListItem"><a class="SettingsListItem" href="/change">Change Password</a></li>
                     <li class="SettingsListItem"><a href="/logout" class="SettingsListItem">Log Out</a></li>
                 </ul>
             </div>
@@ -110,37 +110,6 @@
                 </div>
                 <div class="settingmodel-background Settinghidden"></div>
             </div>
-            <script>
-            const settingsModelBackground = document.querySelector(".settingmodel-background");
-            const settingsModel = document.querySelector(".SettingsListItem");
-            const settingsHidden = document.querySelector(".Settinghidden");
-            const closeSettingsBtn = document.querySelector(".settingmodel-close");
-            const modelSettings = document.querySelector(".settingmodel-mysettings");
-            const changed = document.querySelector(".btnChange");
-
-            function hideSettingsModel() {
-                modelSettings.classList.add("Settinghidden");
-                settingsModelBackground.classList.add("Settinghidden");
-            }
-            
-            function showSettingsModel() {
-                modelSettings.classList.remove("Settinghidden");
-                settingsModelBackground.classList.remove("Settinghidden");
-            }
-
-            settingsModel.addEventListener("click", function () {
-                showSettingsModel();
-            });
-            closeSettingsBtn.addEventListener("click", function () {
-                hideSettingsModel();
-            });
-            settingsModelBackground.addEventListener("click", function () {
-                hideSettingsModel();
-            });
-            changed.addEventListener("click", function () {
-                hideSettingsModel();
-            });
-        </script>
             <div class="container">
                 <div class="row">
                 <div class="col-sm-3">
@@ -157,10 +126,10 @@
                         </li>
                         <div class="OutFill">
                             <li class = "active">
-                            <label class="lab1">Index&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" class = 'fill ind'> - <input type="text" class='fill ind'>
+                            <label class="lab1">Index&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" class = 'fill ind' name='fromId'> - <input type="text" class='fill ind' name='toId'>
                             </li>
                             <li class = "active">
-                            <label>Name&nbsp;&nbsp;&nbsp;</label><input type="text" class = 'fill fill2'>
+                            <label>Name&nbsp;&nbsp;&nbsp;</label><input type="text" class = 'fill fill2' name='name'>
                             </li>
                             <li>
                             <label for="RequestType">Request Type</label>
@@ -169,32 +138,32 @@
                                 <option id="selectOption" value="" disabled selected hidden>
                                     -Select-
                                 </option>
-                                <option value="Late">Late add/drop requests</option>
-                                <option value="first">
+                                <option value="1">Late add/drop requests</option>
+                                <option value="2">
                                     Repeat exams as first attempt with the next batch
                                 </option>
-                                <option value="Extend">
+                                <option value="3">
                                     Extend assignment submission deadlines
                                 </option>
-                                <option value="Rearrange">Rearrange of practical</option>
-                                <option value="Other">Other</option>
+                                <option value="4">Rearrange of practical</option>
+                                <option value="5">Other</option>
                                 </select>
                             </div>
                             </li>
                             <li>
                             <label for="RequestType">Status</label>
                             <div class="col-75">
-                                <select id="RequestType" name="RequestType" class="drop">
+                                <select id="RequestType" name="StatusType" class="drop">
                                 <option id="selectOption" value="" disabled selected hidden>
                                     -Select-
                                 </option>
-                                <option value="Late">Not Responded</option>
-                                <option value="first">Accepted</option>
-                                <option value="Extend">Declined</option>
+                                <option value=1>Not Responded</option>
+                                <option value=2>Accepted</option>
+                                <option value=3>Declined</option>
                                 </select>
                             </div>
                             </li>
-                            <button class="fillbtn btn">Filter</button>
+                            <button class="fillbtn btn" type="submit" name="filter" value="filter">Filter</button>
                         </div>
                     </ul><!-- /.nav -->
                 </div>
@@ -237,7 +206,7 @@
                                             {% for application in applications %}
                                             <td>
                                                 <div class="ckbox ckbox-theme">
-                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox">
+                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox" name={{application[0]}}>
                                                     <label for="checkbox1"></label>
                                                 </div>
                                             </td>
@@ -246,8 +215,8 @@
                                             <td>
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="text-primary">{{application[0]}}</h4>
-                                                        <p class="email-summary">{{application[1]}}</p>
+                                                        <h4 class="text-primary">{{application[1]}}</h4>
+                                                        <p class="email-summary">{{application[2]}}</p>
                                                         <span class="media-meta">Today at 1:13am</span>
                                                     </div>
                                                 </div>

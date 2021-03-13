@@ -91,12 +91,13 @@ def student():
     if 'user' in session:
 
         if request.method == "POST":
-
             # for new submission button
             studentId = dbObj.searchDataFromStudentTable(
                 'students', username)[0][3]
             if request.form.get("New Submission"):
                 return redirect(url_for('newSubmission', username=username, studentId=studentId))
+            if request.form.get("go"):
+                return render_template("SApplicationSubView.html")
         # load leaderboard applications
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
@@ -118,10 +119,11 @@ def student():
             staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
                 0][2]
             #print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
+            temp.append(application[0])
             temp.append(staffName)
             temp.append(requestValue)
             listOfApplications.append(temp)
-        return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications, length=len(listOfApplications))
+        return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications[::-1], length=len(listOfApplications))
     else:
         redirect(url_for('logout'))
 
@@ -132,31 +134,44 @@ def student():
 def change():
     username = session['user']
     dbObj = MySQLClient('localhost', 'root', '', 'student')
+
+    studentDetails = dbObj.searchDataFromStudentTable('students', username)
     if request.form.get("changePassword"):
         oldPassword = request.form['OldPassword']
         newPassword = request.form['NewPassword']
         confirmPassword = request.form['ConfirmPassword']
-        previousPassword = dbObj.searchDataFromStudentTable('students', username)[
-            0][1]
-        if previousPassword is not None:
+
+        if studentDetails != []:
+            previousPassword = dbObj.searchDataFromStudentTable('students', username)[
+                0][1]
+            print("student")
+            if request.form.get("close"):
+                return redirect(url_for('student', username=username))
             if oldPassword == previousPassword and newPassword == confirmPassword and newPassword != "":
                 dbObj.update_Studentdata('students', username, newPassword)
                 dbObj.update_Userdata('users', username, newPassword)
                 return redirect(url_for('student', username=username))
             else:
                 return render_template('settigns.html', username=username, errorMessage="Invalid password")
+
         else:
-            previousPassword = dbObj.searchDataFromStaffTable('students', username)[
+            previousPassword = dbObj.searchDataFromStaffTable('administrators', username)[
                 0][1]
+            print(previousPassword)
+            if request.form.get("close"):
+                return redirect(url_for('staff', username=username))
             if oldPassword == previousPassword and newPassword == confirmPassword and newPassword != "":
-                dbObj.update_Staffdata('students', username, newPassword)
+                dbObj.update_Staffdata('administrators', username, newPassword)
                 dbObj.update_Userdata('users', username, newPassword)
                 return redirect(url_for('staff', username=username))
             else:
                 return render_template('settigns.html', username=username, errorMessage="Invalid password")
 
     if request.form.get("close"):
-        return redirect(url_for('student', username=username))
+        if studentDetails != []:
+            return redirect(url_for('student', username=username))
+        else:
+            return redirect(url_for('staff', username=username))
     return render_template('settigns.html', username=username, errorMessage="")
 
 
@@ -182,6 +197,53 @@ def staff():
                     dbObj.update_Userdata('users', username, newPassword)
                 else:
                     return render_template('LDashboard.html', username=username, errorMessage="Invalid password")
+
+        # filtering process
+            if request.form.get("filter"):
+
+                filterDetails = request.form
+                FfromIndex = filterDetails['fromId']
+                FtoIndex = filterDetails['toId']
+                FrequestType = filterDetails['RequestType']
+                FstatusType = filterDetails['StatusType']
+                Fname = filterDetails['name']
+                staffId = dbObj.searchDataFromStaffTable(
+                    'administrators', username)[0][0]
+                listOfApplications = []
+                for application in dbObj.searchRelatedDataStaffApplicationTable('applications', staffId):
+
+                    temp = []
+                    requestType = application[7]
+                    if requestType != FrequestType:
+                        continue
+                    from_id = application[5]
+                    studentDetails = dbObj.searchDataFromIdUsingStudentTable(
+                        'students', from_id)
+                    studentName = studentDetails[0][2]
+                    studentIndex = studentDetails[0][3]
+                    print(studentName,)
+                    if Fname != studentName:
+                        continue
+                    if studentIndex < FfromIndex and studentIndex > FtoIndex:
+                        continue
+                    if FstatusType != application[1]:
+                        continue
+                    if requestType == '1':
+                        requestValue = "Late add/drop requests"
+                    elif requestType == '2':
+                        requestValue = "Repeat exams as first attempt with the next batch"
+                    elif requestType == '3':
+                        requestValue = "Extend assignment submission deadlines"
+                    elif requestType == '4':
+                        requestValue = "Rearrange of practical"
+                    else:
+                        requestValue = "Other"
+                    temp.append(application[0])
+                    temp.append(studentName)
+                    temp.append(requestValue)
+                    listOfApplications.append(temp)
+                    return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications))
+
         # load leaderboard applications
         staffId = dbObj.searchDataFromStaffTable(
             'administrators', username)[0][0]
@@ -203,10 +265,11 @@ def staff():
             studentName = dbObj.searchDataFromIdUsingStudentTable('students', from_id)[
                 0][2]
             #print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
+            temp.append(application[0])
             temp.append(studentName)
             temp.append(requestValue)
             listOfApplications.append(temp)
-        return render_template('LDashboard.html', username=username, applications=listOfApplications, length=len(listOfApplications))
+        return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications))
     else:
         redirect(url_for('logout'))
 
