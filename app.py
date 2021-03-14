@@ -71,7 +71,8 @@ def student():
         # load leaderboard applications
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
-        listOfApplications = []
+        listOfApplications = [] 
+
         for application in dbObj.searchRelatedDataStudentApplicationTable('applications', studentId):
             temp = []
             requestType = application[7]
