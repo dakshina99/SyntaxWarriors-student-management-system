@@ -65,7 +65,7 @@ def student():
             # fill read only values in student revisit form
             for index in range(len(dbObj.readDataFromTable("student", "applications"))):
                 if request.form.get(str(index+1)):
-                    dbObj.updateApplicationRead(
+                    dbObj.updateApplicationStudentRead(
                         'applications', str(index+1), '1')
                     return redirect(url_for('studentRevisit', applicationId=str(index+1), studentId=studentId))
         # load leaderboard applications
@@ -88,8 +88,8 @@ def student():
                 requestValue = "Other"
             to_id = application[6]
             sentDate = application[8]
-            readed = application[9]
-            if readed == "0":
+            studentReaded = application[9]
+            if studentReaded == "0":
                 unreadCount += 1
             staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
                 0][2]
@@ -98,7 +98,7 @@ def student():
             temp.append(staffName)
             temp.append(requestValue)
             temp.append(sentDate)
-            temp.append(readed)
+            temp.append(studentReaded)
             listOfApplications.append(temp)
 
         return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications[::-1], length=unreadCount)
@@ -120,7 +120,7 @@ def studentRevisit():
         return redirect(url_for('student', username=username))
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     if request.form.get('submitSview'):
-        dbObj.updateApplicationRead('applications', applicationId, '0')
+        dbObj.updateApplicationStaffRead('applications', applicationId, '0')
         return redirect(url_for('student', username=username))
     # download icon cn
     if request.form.get("downloadFile"):
@@ -157,7 +157,6 @@ def studentRevisit():
     else:
         status = "Declined"
 
-    print(requestValue)
     return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename)
 
 
@@ -178,7 +177,7 @@ def staffRevisit():
         requestStatuss = request.form['RequestStatuss']
         dbObj.updateApplicationStatus(
             'applications', applicationId, requestStatuss)
-        dbObj.updateApplicationRead('applications', applicationId, '0')
+        dbObj.updateApplicationStudentRead('applications', applicationId, '0')
         return redirect(url_for('staff', username=username))
     if request.form.get("downloadFile"):
         return redirect(url_for("download_files", applicationId=applicationId))
@@ -271,7 +270,7 @@ def staff():
             # fill read only values in student revisit form
             for index in range(len(dbObj.readDataFromTable("student", "applications"))):
                 if request.form.get(str(index+1)):
-                    dbObj.updateApplicationRead(
+                    dbObj.updateApplicationStaffRead(
                         'applications', str(index+1), '1')
                     return redirect(url_for('staffRevisit', applicationId=str(index+1)))
 
@@ -330,12 +329,12 @@ def staff():
                 else:
                     requestValue = "Other"
                 sentDate = application[8]
-                readed = application[9]
+                staffReaded = application[10]
                 temp.append(application[0])
                 temp.append(studentName)
                 temp.append(requestValue)
                 temp.append(sentDate)
-                temp.append(readed)
+                temp.append(staffReaded)
                 listOfApplications.append(temp)
             return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications))
 
@@ -359,8 +358,8 @@ def staff():
                 requestValue = "Other"
             from_id = application[5]
             sentDate = application[8]
-            readed = application[9]
-            if readed == "0":
+            staffReaded = application[10]
+            if staffReaded == "0":
                 unreadCount += 1
             studentName = dbObj.searchDataFromIdUsingStudentTable('students', from_id)[
                 0][2]
@@ -369,7 +368,7 @@ def staff():
             temp.append(studentName)
             temp.append(requestValue)
             temp.append(sentDate)
-            temp.append(readed)
+            temp.append(staffReaded)
             listOfApplications.append(temp)
         return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=unreadCount)
     else:
@@ -424,7 +423,7 @@ def upload():
 
         length = dbObj.readDataFromTable('student', 'applications')[-1][0]
         dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
-        ), file.filename, studentId, staffId, requestType, today, '0')
+        ), file.filename, studentId, staffId, requestType, today, '1', '0')
         return redirect(url_for('student', username=session['user']))
     except:
         return redirect(url_for('student', username=session['user']))

@@ -59,13 +59,13 @@ class MySQLClient:
         print("Record is entered successfully")
 
     # Entering data to the application table
-    def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType, today, readed):
+    def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded):
         cursor = self.connection.cursor()
         # Execute the query
-        query = """INSERT INTO `{}` (idapplications,request_status,Details,evidence,filename,from_id,to_id,requestType,date,readed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""".format(
+        query = """INSERT INTO `{}` (idapplications,request_status,Details,evidence,filename,from_id,to_id,requestType,date,studentReaded, staffReaded) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""".format(
             tableName)
         val = (idapplications, request_status, Details,
-               evidence, filename, from_id, to_id, requestType, today, readed)
+               evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded)
         cursor.execute(query, val)
         self.connection.commit()
 
@@ -100,6 +100,28 @@ class MySQLClient:
         query = """UPDATE `{}` SET request_status=%s WHERE idapplications=%s;""".format(
             tableName)
         val = (request_status, idapplications)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateApplicationStudentRead(self, tableName, idapplications, studentReaded):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET studentReaded=%s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (studentReaded, idapplications)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateApplicationStaffRead(self, tableName, idapplications, staffReaded):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET staffReaded=%s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (staffReaded, idapplications)
         cursor.execute(query, val)
         self.connection.commit()
 
