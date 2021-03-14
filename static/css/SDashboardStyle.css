@@ -1,47 +1,46 @@
-body{padding:0;
-  margin:0;
-background:#eee;
+body {
+  padding: 0;
+  margin: 0;
+  background: #eee;
 }
-.all{
-padding-top:3vh;
+.all {
+  padding-top: 3vh;
 }
-header{
-position: sticky;
-background-color: rgb(133, 133, 133);
-text-align: left;
-padding: 1px;
-padding-left:10px;
-margin-top:0px;
-}
-
-.h1{
-position: sticky;
-font-size: 1.4vw;
-color: white;
-margin-bottom:30px;
+header {
+  position: sticky;
+  background-color: rgb(133, 133, 133);
+  text-align: left;
+  padding: 1px;
+  padding-left: 10px;
+  margin-top: 0px;
 }
 
-.username{
-position: absolute;
-top: 2.7vh;
-right: 3vw;
-font-size: 1.2vw;
+.h1 {
+  position: sticky;
+  font-size: 1.4vw;
+  color: white;
+  margin-bottom: 30px;
 }
 
-.settings{
-background-image: url("https://static.thenounproject.com/png/83396-200.png");
-background-size:contain;
-background-Repeat:no-Repeat;
-position: absolute;
-top: 20px;
-right: 25px;
-height:0.7cm;
-width:0.6cm;
-border-radius:0.2cm;
-color:#444343;
+.username {
+  position: absolute;
+  top: 2.7vh;
+  right: 3vw;
+  font-size: 1.2vw;
 }
 
-
+.settings {
+  background-image: url("https://static.thenounproject.com/png/83396-200.png");
+  background-size: contain;
+  background-repeat: no-Repeat;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  height: 0.7cm;
+  width: 0.6cm;
+  border-radius: 0.2cm;
+  color: #444343;
+}
 
 /* ========================================================================
 * POPUP Settings
@@ -51,8 +50,8 @@ color:#444343;
   width: 550px;
   height: 350px;
   padding: 10px;
-  padding-left:30px;
-  padding-bottom:50px;
+  padding-left: 30px;
+  padding-bottom: 50px;
 
   border-radius: 20px;
   box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
@@ -65,7 +64,7 @@ color:#444343;
   z-index: 2;
   font-size: 30px;
 
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .settingmodel-background {
@@ -81,33 +80,33 @@ color:#444343;
 
   z-index: 1;
 }
-.box1{
+.box1 {
   width: 340px;
   border-radius: 0.15cm;
-  height:35px;
+  height: 35px;
   font-size: 15px;
-  position:absolute;
-  left:30%;
-  outline:none;
+  position: absolute;
+  left: 30%;
+  outline: none;
   border: 1px solid #515152a9;
 }
-.setrow{
-  height:17%;
+.setrow {
+  height: 17%;
 }
-.lab{
+.lab {
   font-size: 14px;
-  display:inline-block;
-  float:left;
-  text-align:left;
-  padding-top:12px;
+  display: inline-block;
+  float: left;
+  text-align: left;
+  padding-top: 12px;
 }
-#settingTit{
-  text-align:center;
-  padding:25px;
-  margin:0;
+#settingTit {
+  text-align: center;
+  padding: 25px;
+  margin: 0;
 }
-.fixed1{
-  background-color:#eee;
+.fixed1 {
+  background-color: #eee;
 }
 
 .settingmodel-close {
@@ -132,75 +131,77 @@ color:#444343;
   height: 37px;
   font-size: 16px;
   color: #eee;
-  background-color: #37BC9B;
-  cursor:pointer;
-  outline:none;
-  border:none;
+  background-color: #37bc9b;
+  cursor: pointer;
+  outline: none;
+  border: none;
   box-shadow: #999;
 }
 
-.btnChange:active{
+.btnChange:active {
   transform: translateY(2px);
 }
 
-.warnning{
+.warnning {
   color: rgb(146, 0, 0);
   font-size: 16px;
-  margin-top:0.1cm;
+  margin-top: 0.1cm;
   margin-left: 3.7cm;
 }
 
-.Settinghidden{
-  display:none;
+.Settinghidden {
+  display: none;
 }
 
 /* ========================================================================*/
 
 .btn-compose-email {
-padding: 10px 0px;
-margin-bottom: 20px;
-outline:none;
-border:none;
+  padding: 10px 0px;
+  margin-bottom: 20px;
+  outline: none;
+  border: none;
 }
 
-.btn:active{
-transform: translateY(2px);
+.btn:active {
+  transform: translateY(2px);
 }
 
-.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-color: #fff;
-background-color: #37BC9B;
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:focus,
+.nav-pills > li.active > a:hover {
+  color: #fff;
+  background-color: #37bc9b;
 }
 
 .panel-teal .panel-heading {
-background-color: #37BC9B;
-border: 1px solid #36b898;
-color: white;
+  background-color: #37bc9b;
+  border: 1px solid #36b898;
+  color: white;
 }
 
 .panel .panel-heading {
-padding: 5px;
-border-top-right-radius: 3px;
-border-top-left-radius: 3px;
-border-bottom: 1px solid #DDD;
--moz-border-radius: 0px;
--webkit-border-radius: 0px;
-border-radius: 0px;
+  padding: 5px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom: 1px solid #ddd;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
 }
 
 .panel .panel-heading .panel-title {
-padding: 10px;
-font-size: 17px;
+  padding: 10px;
+  font-size: 17px;
 }
 
 form .form-group {
-position: relative;
-margin-left: 0px !important;
-margin-right: 0px !important;
+  position: relative;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 .inner-all {
-padding: 10px;
+  padding: 10px;
 }
 
 /* ========================================================================
@@ -208,76 +209,94 @@ padding: 10px;
 * ======================================================================== */
 
 .nav-email li.active .label {
-padding:4px;
-background-color: white;
-color: black;
+  padding: 4px;
+  background-color: white;
+  color: black;
 }
 .nav-email li a {
-color: black;
--moz-border-radius: 0px;
--webkit-border-radius: 0px;
-border-radius: 0px;
+  color: black;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
 }
 .nav-email li a:hover {
-background-color: #EEEEEE;
+  background-color: #eeeeee;
 }
 .nav-email li a i {
-margin-right: 5px;
+  margin-right: 5px;
 }
 .nav-email li a .label {
-margin-top: -1px;
+  margin-top: -1px;
 }
 
 .table-email tr:first-child td {
-border-top: none;
+  border-top: none;
 }
 .table-email tr td {
-vertical-align: top !important;
+  vertical-align: top !important;
 }
-.table-email tr td:first-child, .table-email tr td:nth-child(2) {
-text-align: center;
-width: 35px;
+.table-email tr td:first-child,
+.table-email tr td:nth-child(2) {
+  text-align: center;
+  width: 35px;
 }
-.table-email tr.unread, .table-email tr.selected {
-background-color: #EEEEEE;
+.table-email tr.unread,
+.table-email tr.selected {
+  background-color: #eeeeee;
 }
 .table-email .media {
-margin: 0px;
-padding: 0px;
-position: relative;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
 }
 .table-email .media h4 {
-margin: 0px;
-font-size: 14px;
-line-height: normal;
+  margin: 0px;
+  font-size: 14px;
+  line-height: normal;
 }
 .table-email .media-object {
-width: 35px;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
+  width: 35px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
 }
-.table-email .media-meta, .table-email .media-attach {
-font-size: 11px;
-color: #999;
-position: absolute;
-right: 10px;
+.table-email .media-meta,
+.table-email .media-attach {
+  font-size: 11px;
+  color: #999;
+  position: absolute;
+  right: 10px;
 }
 .table-email .media-meta {
-top: 0px;
+  top: 0px;
 }
 .table-email .media-attach {
-bottom: 0px;
+  bottom: 0px;
 }
 .table-email .media-attach i {
-margin-right: 10px;
+  margin-right: 10px;
 }
 .table-email .media-attach i:last-child {
-margin-right: 0px;
+  margin-right: 0px;
 }
 .table-email .email-summary {
-margin: 0px 110px 0px 0px;
+  margin: 0px 110px 0px 0px;
 }
 .table-email .email-summary span {
-line-height: 1;
+  line-height: 1;
+}
+
+.subOpen {
+  background-image: url(http://www.concyteq.edu.mx/transparencia/imagenes/ZMC-EmailIcon.png);
+  background-size: contain;
+  background-repeat: no-Repeat;
+  height: 0.8cm;
+  width: 0.8cm;
+  border-radius: 2cm;
+}
+
+.subOpen:active {
+  background-image: url(http://www.concyteq.edu.mx/transparencia/imagenes/ZMC-EmailIcon.png);
+  background-size: contain;
+  background-repeat: no-Repeat;
 }

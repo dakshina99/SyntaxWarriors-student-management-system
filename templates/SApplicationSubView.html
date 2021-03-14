@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="Application.css" />
-    <link rel="stylesheet" href="CommentBoxStyle.css" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/Application.css') }} />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/CommentBoxStyle.css') }} />
     <link
       rel="stylesheet"
       href="https://semantic-ui.com/dist/semantic.min.css"
@@ -15,6 +15,7 @@
     <title>Application Form</title>
   </head>
   <body class="outer">
+    <form method="POST">
     <div class="Appcontainer">
       <h1 class="Appheading">Application</h1>
       <form action="action_page.php">
@@ -28,7 +29,7 @@
               type="text"
               id="fname"
               name="firstname"
-              placeholder="Enter your name"
+              value={{username}}
             />
           </div>
           <div class="col-25">
@@ -40,6 +41,7 @@
               type="text"
               id="fname"
               name="firstname"
+              value={{studentAdmissionNum}}
             />
           </div>
           <div class="col-25">
@@ -51,7 +53,7 @@
               type="text"
               id="fname"
               name="firstname"
-              placeholder="Administrator's name.."
+              value={{staffName}}
             />
           </div>
         </div>
@@ -66,7 +68,7 @@
               type="text"
               id="RequestType"
               name="RequestType"
-              placeholder="Request Type.."
+              value={{requestValue}}
             />
           </div>
         </div>
@@ -79,9 +81,9 @@
               readonly
               id="subject"
               name="subject"
-              placeholder="Explain your request.."
               style="height: 200px"
-            ></textarea>
+              
+            >{{details}}</textarea>
           </div>
         </div>
         <div class="row">
@@ -107,6 +109,7 @@
               type="text"
               id="RequestType"
               name="RequestType"
+              value={{status}}
             />
             </div>
         </form>
@@ -131,9 +134,10 @@
       </div>
       </form>
       <div class="submitbut">
-        <button class="ui primary button subButton">Submit</button>
-        <button class="ui button">Discard</button>
+        <button class="ui primary button subButton" value="submitSview" name="submitSview">Submit</button>
+        <button class="ui button" type="submit" value="discardSview" name="discardSview">Discard</button>
       </div>
     </div>
+    </form>
   </body>
 </html>

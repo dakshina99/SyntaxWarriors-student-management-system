@@ -59,13 +59,13 @@ class MySQLClient:
         print("Record is entered successfully")
 
     # Entering data to the application table
-    def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType):
+    def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType, today, readed):
         cursor = self.connection.cursor()
         # Execute the query
-        query = """INSERT INTO `{}` (idapplications,request_status,Details,evidence,filename,from_id,to_id,requestType) VALUES (%s,%s,%s,%s,%s,%s,%s,%s);""".format(
+        query = """INSERT INTO `{}` (idapplications,request_status,Details,evidence,filename,from_id,to_id,requestType,date,readed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""".format(
             tableName)
         val = (idapplications, request_status, Details,
-               evidence, filename, from_id, to_id, requestType)
+               evidence, filename, from_id, to_id, requestType, today, readed)
         cursor.execute(query, val)
         self.connection.commit()
 
@@ -89,6 +89,28 @@ class MySQLClient:
         query = """UPDATE `{}` SET UserPassword=%s WHERE UserName=%s;""".format(
             tableName)
         val = (UserPassword, UserName)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateApplicationStatus(self, tableName, idapplications, request_status):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET request_status=%s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (request_status, idapplications)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateApplicationRead(self, tableName, idapplications, readed):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET readed=%s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (readed, idapplications)
         cursor.execute(query, val)
         self.connection.commit()
 
@@ -168,6 +190,14 @@ class MySQLClient:
         # Execute the query
         cursor.execute(
             "SELECT * FROM {} WHERE from_id='{}'".format(tableName, from_id))
+        return cursor.fetchall()
+
+    def searchRelatedDataApplicationApplicationTable(self, tableName, idapplications):
+        # Read data from a table
+        cursor = self.connection.cursor()
+        # Execute the query
+        cursor.execute(
+            "SELECT * FROM {} WHERE idapplications='{}'".format(tableName, idapplications))
         return cursor.fetchall()
 
     def convertToBinaryData(self, filename):

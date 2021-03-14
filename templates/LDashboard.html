@@ -138,6 +138,7 @@
                                 <option id="selectOption" value="" disabled selected hidden>
                                     -Select-
                                 </option>
+                                <option value="0" selected>None</option>
                                 <option value="1">Late add/drop requests</option>
                                 <option value="2">
                                     Repeat exams as first attempt with the next batch
@@ -157,6 +158,7 @@
                                 <option id="selectOption" value="" disabled selected hidden>
                                     -Select-
                                 </option>
+                                <option value=0 selected>None</option>
                                 <option value=1>Not Responded</option>
                                 <option value=2>Accepted</option>
                                 <option value=3>Declined</option>
@@ -174,41 +176,18 @@
                                 <h3 class="panel-title" id="unreadLab2"></h3>
                             </div>
                             <div class="clearfix"></div>
-                        </div><!-- /.panel-heading -->
-                        <div class="panel-sub-heading inner-all">
-                            <div class="pull-left">
-                                <ul class="list-inline no-margin">
-                                    <li>
-                                        <div class="btn-group" id = "del">
-                                            <button class="btn btn-default btn-sm tooltips" type="button" data-toggle="tooltip" data-container="body" title="" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="pull-right">
-                                <ul class="list-inline no-margin">
-                                    <li>
-                                        <div class="btn-group">
-                                            <a href="#" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i></a>
-                                            <a href="#" class="btn btn-sm btn-default"><i class="fa fa-angle-right"></i></a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
                         </div>
+                        
                         <div class="panel-body no-padding">
                             
                             <div class="table-responsive">
                                 <table class="table table-hover table-email">
                                     <tbody id="text">
+                                        {% for application in applications %}
+                                        {% if application[4]=="0"%}
                                         <tr class="unread">
-                                            {% for application in applications %}
                                             <td>
-                                                <div class="ckbox ckbox-theme">
-                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox" name={{application[0]}}>
-                                                    <label for="checkbox1"></label>
-                                                </div>
+                                                <button class="btn subOpen" type="submit" name={{application[0]}} value={{application[0]}}></button>
                                             </td>
                                             <td>
                                             </td>
@@ -217,35 +196,33 @@
                                                     <div class="media-body">
                                                         <h4 class="text-primary">{{application[1]}}</h4>
                                                         <p class="email-summary">{{application[2]}}</p>
-                                                        <span class="media-meta">Today at 1:13am</span>
+                                                        <span class="media-meta">{{application[3]}}</span>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        {% endfor %}
+                                        {% else %}
                                         <tr>
                                             <td>
-                                                <div class="ckbox ckbox-theme">
-                                                    <input id="checkbox1" type="checkbox" class="mail-checkbox">
-                                                    <label for="checkbox1"></label>
-                                                </div>
+                                                <button class="btn subOpen" type="submit" name={{application[0]}} value={{application[0]}}></button>
                                             </td>
                                             <td>
                                             </td>
                                             <td>
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h4 class="text-primary">Achira Dias</h4>
-                                                        <p class="email-summary">Repeat exams As First Attempt with the next batch</p>
-                                                        <span class="media-meta">Feb 28</span>
+                                                        <h4 class="text-primary">{{application[1]}}</h4>
+                                                        <p class="email-summary">{{application[2]}}</p>
+                                                        <span class="media-meta">{{application[3]}}</span>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
+                                        {% endif %}
+                                        {% endfor %}
                                     </tbody>
                                 </table>
-                            </div>
-                            
+                            </div>                            
                         </div>
                     </div>
                 </div>

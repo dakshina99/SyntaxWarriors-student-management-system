@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="Application.css" />
-    <link rel="stylesheet" href="CommentBoxStyle.css" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/Application.css') }}/>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/CommentBoxStyle.css') }} />
     <link
       rel="stylesheet"
       href="https://semantic-ui.com/dist/semantic.min.css"
@@ -15,6 +15,7 @@
     <title>Application Form</title>
   </head>
   <body class="outer">
+    <form method="POST">
     <div class="Appcontainer">
       <h1 class="Appheading">Application</h1>
       <form action="action_page.php">
@@ -28,7 +29,7 @@
               type="text"
               id="fname"
               name="firstname"
-              placeholder="Enter your name"
+              value={{studentName}}
             />
           </div>
           <div class="col-25">
@@ -40,6 +41,7 @@
               type="text"
               id="fname"
               name="firstname"
+              value={{studentAdmissionNum}}
             />
           </div>
           <div class="col-25">
@@ -51,7 +53,7 @@
               type="text"
               id="fname"
               name="firstname"
-              placeholder="Administrator's name.."
+              value={{username}}
             />
           </div>
         </div>
@@ -66,7 +68,7 @@
               type="text"
               id="RequestType"
               name="RequestType"
-              placeholder="Request Type.."
+              value={{requestValue}}
             />
           </div>
         </div>
@@ -79,9 +81,8 @@
               readonly
               id="subject"
               name="subject"
-              placeholder="Explain your request.."
               style="height: 200px"
-            ></textarea>
+            >{{details}}</textarea>
           </div>
         </div>
         <div class="row">
@@ -102,14 +103,21 @@
             <label for="lname"><strong>Request Status</strong></label>
           </div>
           <div class="col-75">
-            <select id="RequestType" name="RequestType">
+            <select id="RequestStatuss" name="RequestStatuss">
               <option id="selectOption" value="" disabled selected hidden>
                 -Select-
               </option>
-              <option value="Accepted">Accepted</option>
-              <option value="Declined">
-               Declined
-              </option>
+              {% if requestStatus==1 %}
+                <option value="1" selected>Pending</option>
+                <option value="2">Accepted</option>
+                <option value="3">Declined</option>
+              {% elif requestStatus==2 %}
+                <option value="2" selected>Accepted</option>
+                <option value="3">Declined</option>
+              {% else %}
+                <option value="2">Accepted</option>
+                <option value="3" selected>Declined</option>
+              {% endif %}              
             </select> 
           </div>
         </form>
@@ -134,9 +142,10 @@
       </div>
       </form>
       <div class="submitbut">
-        <button class="ui primary button subButton">Submit</button>
-        <button class="ui button">Discard</button>
+        <button class="ui primary button subButton" value="submitLSview" name="submitLview">Submit</button>
+        <button class="ui button" value="discardLSview" name="discardLview">Discard</button>
       </div>
     </div>
+    </form>
   </body>
 </html>
