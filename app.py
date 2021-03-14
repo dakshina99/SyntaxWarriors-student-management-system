@@ -107,14 +107,20 @@ def student():
 @app.route('/studentRevisit', methods=["GET", "POST"])
 def studentRevisit():
     applicationId = request.args.get("applicationId")
+    global globaCurrentlId
+    globaCurrentlId = applicationId
     studentId = request.args.get("studentId")
     username = session['user']
+    isnull = False
     if request.form.get("discardSview"):
         return redirect(url_for('student', username=username))
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
         'applications', applicationId)[0]
     to_id = applicationData[6]
+    evidence = applicationData[4]
+    if evidence == "":
+        isnull = True
     staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
         0][2]
     requestType = applicationData[7]
@@ -137,7 +143,7 @@ def studentRevisit():
         status = "Accepted"
     else:
         status = "Declined"
-    return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status)
+    return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull)
 
 
 # student revisit view
@@ -146,6 +152,9 @@ def studentRevisit():
 @app.route('/staffRevisit', methods=["GET", "POST"])
 def staffRevisit():
     applicationId = request.args.get("applicationId")
+    global globaCurrentlId
+    globaCurrentlId = applicationId
+    isnull = False
     username = session['user']
     if request.form.get("discardLview"):
         return redirect(url_for('staff', username=username))
@@ -155,9 +164,17 @@ def staffRevisit():
         dbObj.updateApplicationStatus(
             'applications', applicationId, requestStatuss)
         return redirect(url_for('staff', username=username))
+    if request.form.get("downloadFile"):
+        print(applicationId)
+        return redirect(url_for("download_files", applicationId=applicationId))
+
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
         'applications', applicationId)[0]
+
     from_id = applicationData[5]
+    evidence = applicationData[4]
+    if evidence == "":
+        isnull = True
     studentName = dbObj.searchDataFromIdUsingStudentTable('students', from_id)[
         0][2]
     studentId = dbObj.searchDataFromStudentTable(
@@ -175,7 +192,7 @@ def staffRevisit():
         requestValue = "Other"
     requestStatus = applicationData[1]
     details = applicationData[2]
-    return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus)
+    return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull)
 
 
 # for change password in students profiles
@@ -357,15 +374,18 @@ def logout():
 @app.route('/download')
 def download_files():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
-    filename, file_data = dbObj.dowloadfile('applications', '')
-    print(filename)
-    print(file_data)
+    global globaCurrentlId
+    applicationId = globaCurrentlId
+    print(applicationId, type(applicationId))
+    file_data, filename = dbObj.dowloadfile('applications', applicationId)
+    # print(file_data)
     filecontent = BytesIO(file_data)
-    return send_file(filecontent, attachment_filename=filename, as_attachment=True)
+    return send_file(filecontent, attachment_filename=filename, as_attachment=True, cache_timeout=0)
 
 
 @app.route('/upload', methods=['POST'])
 def upload():
+
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
     try:

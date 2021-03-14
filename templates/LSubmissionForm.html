@@ -92,7 +92,14 @@
           <div class="col-75">
             <form action="/action_page.php">
               <div class="choosefile">
-                <button>Download File</button>
+                {% if isnull==True %}
+                  No file attached
+                {% else %}
+                  <form method = "POST" action="/download">
+                    <button type="submit" name="downloadFile" value="downloadFile" disabled="disabled"><a href="{{url_for('download_files')}}" disabled="disabled">Download File</a></button>
+                  </form>
+                {% endif %}
+                
               </div>
             <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
           </div>

@@ -225,6 +225,15 @@ class MySQLClient:
         current_row = cursor.fetchall()[0]
         return current_row[4], current_row[3]
 
+    def dowloadfile(self, tableName, idapplications):
+        # Read data from a table
+        cursor = self.connection.cursor()
+        # Execute the query
+        cursor.execute(
+            'SELECT * FROM {} WHERE idapplications = {}'.format(tableName, idapplications))
+        current_row = cursor.fetchall()[0]
+        return current_row[3], current_row[4]
+
 
 # dbObj = MySQLClient('localhost','root','','student')
 # print(dbObj.showTables('student'))
