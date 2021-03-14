@@ -97,7 +97,7 @@
                   No file attached
                 {% else %}
                   <form method = "POST" action="/download">
-                    <button type="submit" name="downloadFile" value="downloadFile" disabled="disabled"><a href="{{url_for('download_files')}}" disabled="disabled">Download File</a></button>
+                    <button type="submit" name="downloadFile" value="downloadFile" disabled="disabled"><a href="{{url_for('download_files')}}" disabled="disabled">Download File</a></button>{{filename}}
                   </form>
                 {% endif %}
               </div>
@@ -140,7 +140,7 @@
       </div>
       </form>
       <div class="submitbut">
-        <button class="ui primary button subButton" value="submitSview" name="submitSview">Submit</button>
+        <button class="ui primary button subButton" type="submit" value="submitSview" name="submitSview">Submit</button>
         <button class="ui button" type="submit" value="discardSview" name="discardSview">Discard</button>
       </div>
     </div>

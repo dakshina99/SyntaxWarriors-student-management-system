@@ -72,6 +72,7 @@ def student():
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
         listOfApplications = []
+        unreadCount = 0
         for application in dbObj.searchRelatedDataStudentApplicationTable('applications', studentId):
             temp = []
             requestType = application[7]
@@ -88,6 +89,8 @@ def student():
             to_id = application[6]
             sentDate = application[8]
             readed = application[9]
+            if readed == "0":
+                unreadCount += 1
             staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
                 0][2]
             #print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
@@ -97,7 +100,8 @@ def student():
             temp.append(sentDate)
             temp.append(readed)
             listOfApplications.append(temp)
-        return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications[::-1], length=len(listOfApplications))
+
+        return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications[::-1], length=unreadCount)
     else:
         redirect(url_for('logout'))
 
@@ -115,6 +119,9 @@ def studentRevisit():
     if request.form.get("discardSview"):
         return redirect(url_for('student', username=username))
     dbObj = MySQLClient('localhost', 'root', '', 'student')
+    if request.form.get('submitSview'):
+        dbObj.updateApplicationRead('applications', applicationId, '0')
+        return redirect(url_for('student', username=username))
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
         'applications', applicationId)[0]
     to_id = applicationData[6]
@@ -124,6 +131,7 @@ def studentRevisit():
     staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
         0][2]
     requestType = applicationData[7]
+    filename = applicationData[4]
     if requestType == '1':
         requestValue = "Late add/drop requests"
     elif requestType == '2':
@@ -143,7 +151,7 @@ def studentRevisit():
         status = "Accepted"
     else:
         status = "Declined"
-    return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull)
+    return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename)
 
 
 # student revisit view
@@ -163,6 +171,7 @@ def staffRevisit():
         requestStatuss = request.form['RequestStatuss']
         dbObj.updateApplicationStatus(
             'applications', applicationId, requestStatuss)
+        dbObj.updateApplicationRead('applications', applicationId, '0')
         return redirect(url_for('staff', username=username))
     if request.form.get("downloadFile"):
         print(applicationId)
@@ -191,8 +200,9 @@ def staffRevisit():
     else:
         requestValue = "Other"
     requestStatus = applicationData[1]
+    filename = applicationData[4]
     details = applicationData[2]
-    return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull)
+    return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull, filename=filename)
 
 
 # for change password in students profiles
@@ -376,7 +386,6 @@ def download_files():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     global globaCurrentlId
     applicationId = globaCurrentlId
-    print(applicationId, type(applicationId))
     file_data, filename = dbObj.dowloadfile('applications', applicationId)
     # print(file_data)
     filecontent = BytesIO(file_data)
@@ -389,23 +398,20 @@ def upload():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
     try:
-        print("Run")
         username = session['user']
         userDetails = request.form
         name = userDetails['studentName']
         lecturer = userDetails['staffName']
         requestType = userDetails['RequestType']
         details = userDetails['subject']
-        print("Run 2")
         staffId = dbObj.searchDataFromStaffTable(
             'administrators', lecturer)[0][0]
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
         file = request.files['filename']
-        today = datetime.today().strftime('%Y/%m/%d')
+        today = datetime.today().strftime('%b %d')
 
         length = dbObj.readDataFromTable('student', 'applications')[-1][0]
-        print("Run 3")
         dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
         ), file.filename, studentId, staffId, requestType, today, '0')
         return redirect(url_for('student', username=session['user']))
