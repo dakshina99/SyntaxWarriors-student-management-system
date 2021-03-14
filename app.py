@@ -122,6 +122,9 @@ def studentRevisit():
     if request.form.get('submitSview'):
         dbObj.updateApplicationRead('applications', applicationId, '0')
         return redirect(url_for('student', username=username))
+    # download icon cn
+    if request.form.get("downloadFile"):
+        return redirect(url_for("download_files", applicationId=applicationId))
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
         'applications', applicationId)[0]
     to_id = applicationData[6]
@@ -132,6 +135,8 @@ def studentRevisit():
         0][2]
     requestType = applicationData[7]
     filename = applicationData[4]
+    if len(filename) > 15:
+        filename = filename[:5]+"....."+filename[-5:]
     if requestType == '1':
         requestValue = "Late add/drop requests"
     elif requestType == '2':
@@ -151,6 +156,8 @@ def studentRevisit():
         status = "Accepted"
     else:
         status = "Declined"
+
+    print(requestValue)
     return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename)
 
 
@@ -174,7 +181,6 @@ def staffRevisit():
         dbObj.updateApplicationRead('applications', applicationId, '0')
         return redirect(url_for('staff', username=username))
     if request.form.get("downloadFile"):
-        print(applicationId)
         return redirect(url_for("download_files", applicationId=applicationId))
 
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
@@ -201,6 +207,8 @@ def staffRevisit():
         requestValue = "Other"
     requestStatus = applicationData[1]
     filename = applicationData[4]
+    if len(filename) > 15:
+        filename = filename[:5]+"....."+filename[-5:]
     details = applicationData[2]
     return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull, filename=filename)
 
