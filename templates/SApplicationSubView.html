@@ -97,7 +97,7 @@
                   No file attached
                 {% else %}
                   <form method = "POST" action="/download">
-                    <button class="dbut" type="submit" name="downloadFile" value="downloadFile"><a href="{{url_for('download_files')}}" disabled="disabled">{{filename}}</a></button>
+                    <button class="dbut" type="submit" name="downloadFile" value="downloadFile"><a class="filen" href="{{url_for('download_files')}}" disabled="disabled">{{filename}}</a></button>
                   </form>
                 {% endif %}
               </div>
