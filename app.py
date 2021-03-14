@@ -93,7 +93,7 @@ def student():
                 unreadCount += 1
             staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
                 0][2]
-            #print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
+            # print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
             temp.append(application[0])
             temp.append(staffName)
             temp.append(requestValue)
@@ -335,6 +335,7 @@ def staff():
         staffId = dbObj.searchDataFromStaffTable(
             'administrators', username)[0][0]
         listOfApplications = []
+        unreadCount = 0
         for application in dbObj.searchRelatedDataStaffApplicationTable('applications', staffId):
             temp = []
             requestType = application[7]
@@ -351,22 +352,24 @@ def staff():
             from_id = application[5]
             sentDate = application[8]
             readed = application[9]
+            if readed == "0":
+                unreadCount += 1
             studentName = dbObj.searchDataFromIdUsingStudentTable('students', from_id)[
                 0][2]
-            #print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
+            # print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
             temp.append(application[0])
             temp.append(studentName)
             temp.append(requestValue)
             temp.append(sentDate)
             temp.append(readed)
             listOfApplications.append(temp)
-        return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications))
+        return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=unreadCount)
     else:
         redirect(url_for('logout'))
 
 
 # for new submissions
-@app.route('/application', methods=['GET', 'POST'])
+@ app.route('/application', methods=['GET', 'POST'])
 def newSubmission():
     username = request.args.get('username')
     studentAdmissionNum = request.args.get('studentId')
@@ -375,13 +378,13 @@ def newSubmission():
     return render_template('NewSubmissionForm.html', studentAdmissionNum=studentAdmissionNum)
 
 
-@app.route('/logout')
+@ app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
 
 
-@app.route('/download')
+@ app.route('/download')
 def download_files():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     global globaCurrentlId
@@ -392,7 +395,7 @@ def download_files():
     return send_file(filecontent, attachment_filename=filename, as_attachment=True, cache_timeout=0)
 
 
-@app.route('/upload', methods=['POST'])
+@ app.route('/upload', methods=['POST'])
 def upload():
 
     dbObj = MySQLClient('localhost', 'root', '', 'student')

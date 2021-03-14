@@ -117,10 +117,8 @@
                 <div class="col-sm-3">
                     <input class="btn btn-danger btn-block btn-compose-email" id="newSubmission" type = "submit" value="New Submission" name="New Submission">
                     <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
-                        <li class="active">
-                            <a href="#mail-inbox.html">
-                                <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1">{{length}}</span>
-                            </a>
+                        <li class="active">                            
+                            <i class="fa fa-inbox"></i> Submissions <span class="label pull-right" id = "unreadLab1">{{length}}</span>
                         </li>
                     </ul><!-- /.nav -->
                 </div>
@@ -128,7 +126,7 @@
                     <div class="panel rounded shadow panel-teal">
                         <div class="panel-heading">
                             <div class="pull-left">
-                                <h3 class="panel-title" id="unreadLab2"></h3>
+                                <h3 class="panel-title" id="unreadLab2">Submissions ({{length}})</h3>
                             </div>
                             <div class="clearfix"></div>
                         </div>
