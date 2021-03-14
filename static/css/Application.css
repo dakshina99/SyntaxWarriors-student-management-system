@@ -44,7 +44,7 @@ input[type="submit"] {
 .Appcontainer {
   border-radius: 10px;
   background-color: #f2f2f2;
-  height: 24cm;
+  height: 24.5cm;
   width: 16cm;
   margin: auto;
   margin-top: 1cm;
@@ -129,4 +129,21 @@ input[type="submit"] {
 }
 .choosefile {
   margin-top: 10px;
+}
+.cbox{
+  float: right;
+}
+
+.cboxlab{
+  position: relative;
+  bottom: 0.4cm;
+}
+
+.addcom{
+  float: right;
+  position: relative;
+  bottom: 1.06cm;
+  right: -1.032cm;
+  height: 1.034cm;
+  border: 1px solid #ccc;
 }

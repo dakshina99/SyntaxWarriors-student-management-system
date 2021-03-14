@@ -97,7 +97,7 @@
                   No file attached
                 {% else %}
                   <form method = "POST" action="/download">
-                    <button class="dbut" type="submit" name="downloadFile" value="downloadFile" onclick="{{url_for('download_files')}}"></button>{{filename}}
+                    <button class="dbut" type="submit" name="downloadFile" value="downloadFile" onclick="{{url_for('download_files')}}"></button><label class="cboxlab">&ensp;{{filename}}</label>
                   </form>
                 {% endif %}
               </div>
@@ -132,7 +132,7 @@
               </div>
               <div id="input">
                 <form>
-                  <input id="input" type="text" name="user" placeholder="Enter Your Message"/>
+                  <input id="input" type="text" name="user" placeholder="Enter Your Message"/><button class="ui addcom button">Add</button>
                 </form>
               </div>
             </div>
