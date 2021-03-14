@@ -164,12 +164,21 @@ header {
 }
 
 .btn:active {
+  border: none;
+  outline: none;
   transform: translateY(2px);
+  border-style: none;
 }
 
 .btn:active:focus{
   border: none;
   outline: none;
+}
+
+.btn:focus{
+  border: none;
+  outline: none;
+  border-style: none;
 }
 
 .nav-pills > li.active > a,

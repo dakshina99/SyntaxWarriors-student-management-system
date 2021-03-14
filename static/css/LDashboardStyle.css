@@ -200,14 +200,19 @@ header {
 .btn:active {
   border: none;
   outline: none;
-  box-shadow: none;
   transform: translateY(2px);
+  border-style: none;
+}
+
+.btn:active:focus{
+  border: none;
+  outline: none;
 }
 
 .btn:focus{
   border: none;
   outline: none;
-  box-shadow: none;
+  border-style: none;
 }
 
 .nav-pills > li.active > a,
