@@ -198,7 +198,16 @@ header {
 }
 
 .btn:active {
+  border: none;
+  outline: none;
+  box-shadow: none;
   transform: translateY(2px);
+}
+
+.btn:focus{
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 .nav-pills > li.active > a,
