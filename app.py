@@ -389,12 +389,14 @@ def upload():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
     try:
+        print("Run")
         username = session['user']
         userDetails = request.form
         name = userDetails['studentName']
         lecturer = userDetails['staffName']
         requestType = userDetails['RequestType']
         details = userDetails['subject']
+        print("Run 2")
         staffId = dbObj.searchDataFromStaffTable(
             'administrators', lecturer)[0][0]
         studentId = dbObj.searchDataFromStudentTable(
@@ -403,9 +405,9 @@ def upload():
         today = datetime.today().strftime('%Y/%m/%d')
 
         length = dbObj.readDataFromTable('student', 'applications')[-1][0]
-        print("Running", str(length+1), type(today))
-        dbObj.insert_applicationData('applications', str(
-            length+1), '1', details, file.read(), file.filename, studentId, staffId, requestType, today, '0')
+        print("Run 3")
+        dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
+        ), file.filename, studentId, staffId, requestType, today, '0')
         return redirect(url_for('student', username=session['user']))
     except:
         return redirect(url_for('student', username=session['user']))
