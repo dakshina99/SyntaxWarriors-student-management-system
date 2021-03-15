@@ -1,33 +1,40 @@
 body {
   padding: 0;
   margin: 0;
-  background: #eee;
+  background-image: url("https://www.brainybeaver.com/wp-content/uploads/2017/09/graphic-design-bg.jpg");
+  background-size: cover;
 }
 .all {
-  padding-top: 3vh;
+  padding-top: 14vh;
+}
+
+.container{
+  z-index: 1;
 }
 
 header {
-  position: sticky;
-  background-color: rgb(133, 133, 133);
+  position: fixed;
+  background-color: #227963;
   text-align: left;
   padding: 1px;
   padding-left: 10px;
   margin-top: 0px;
+  width: 100vw;
+  z-index: 2;
 }
 
 .h1 {
-  position: sticky;
-  font-size: 1.4vw;
+  font-size: 22px;
   color: white;
   margin-bottom: 30px;
 }
 
 .username {
-  position: absolute;
-  top: 2.7vh;
-  right: 3vw;
-  font-size: 1.2vw;
+  position: fixed;
+  top: 0.44cm;
+  right: 1.2cm;
+  font-size: 20px;
+  color: white;
 }
 
 .settings {
@@ -43,9 +50,16 @@ header {
   color: #444343;
 }
 
+
+
 /* ========================================================================
 * POPUP Settings
 * ======================================================================== */
+.navSettings{
+  position: fixed;
+  z-index: 3;
+}
+
 .settingmodel-mysettings {
   background-color: #f2f2f2;
   width: 550px;
@@ -190,7 +204,7 @@ header {
 
 .panel-teal .panel-heading {
   background-color: #37bc9b;
-  border: 1px solid #36b898;
+  border: 3px solid #36b898;
   color: white;
 }
 
@@ -219,13 +233,18 @@ form .form-group {
   padding: 10px;
 }
 
+.panel-body{
+  background-color: #f5f5f5b6;
+  box-shadow: 10px 10px 40px 0.1px rgba(0, 0, 0, 0.664);
+}
+
 /* ========================================================================
 * Submission
 * ======================================================================== */
 
 .nav-email li.active .label {
   padding: 4px;
-  background-color: white;
+  background-color: #eeeeee;
   color: black;
 }
 .nav-email li a {
@@ -255,9 +274,8 @@ form .form-group {
   text-align: center;
   width: 35px;
 }
-.table-email tr.unread,
-.table-email tr.selected {
-  background-color: #eeeeee;
+.table-email tr.unread{
+  background-color: #e0e0e0;
 }
 .table-email .media {
   margin: 0px;
