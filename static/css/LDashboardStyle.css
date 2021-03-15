@@ -46,6 +46,11 @@ header {
 /* ========================================================================
   * POPUP Settings
   * ======================================================================== */
+  .navSettings{
+    position: fixed;
+    z-index: 3;
+  }
+  
 .settingmodel-mysettings {
   background-color: #f2f2f2;
   width: 550px;
