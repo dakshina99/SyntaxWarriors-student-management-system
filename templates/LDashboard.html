@@ -13,7 +13,7 @@
     <form method="POST">
         <header class = "Header1">
             <h1 class="h1"><strong>Student Request Management System</strong></h1>
-            <div class="pull-right username" id = "username">{{username}}</div>
+            <div class="pull-right username" id = "username"><div class="uicon"></div>{{username}}</div>
         </header>
         <ul class="navSettings">
             <div class="kebabSettings">
@@ -75,41 +75,6 @@
         </script>
 
         <div class="all">
-            <div class="mainSettings">
-                <div class="settingmodel-mysettings Settinghidden">
-                    <input class="settingmodel-close"type="button" value="&times;">
-                    <div><h3 id="settingTit"><strong>Change Password</strong></h3></div>
-                    <div class="setrow">
-                        <label class="lab"><strong>Username</strong></label>
-                        <div>
-                            <input type="text" readonly class="box1 fixed1" id="username2" value={{username}}>
-                        </div>
-                    </div>
-                    <div class="setrow">
-                        <label class="lab"><strong>Old Password</strong></label>
-                        <div>
-                            <input type="password" class="box1" id="OldPassword" name="OldPassword">
-                        </div>
-                    </div>
-                    <div class="setrow">
-                        <label class="lab"><strong>New Password</strong></label>
-                        <div>
-                            <input type="password" class="box1" id="NewPassword" name="NewPassword">
-                        </div>
-                    </div>
-                    <div class="setrow">
-                        <label class="lab"><strong>Confirm Password</strong></label>
-                        <div>
-                            <input type="password" class="box1" id="ConfirmPassword" name="ConfirmPassword">
-                        </div>
-                    </div>
-                    <div class="warnning">
-                        {{errorMessage}}
-                    </div>
-                    <button type="submit" class="btnChange" name="changePassword" value="changePassword"><strong>Change</strong></button>
-                </div>
-                <div class="settingmodel-background Settinghidden"></div>
-            </div>
             <div class="container">
                 <div class="row">
                 <div class="col-sm-3">

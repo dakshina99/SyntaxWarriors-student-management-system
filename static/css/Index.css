@@ -9,52 +9,60 @@
     font-family: 'Roboto', sans-serif;
 
 }
-body{
-    background-image: url("https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+.outer{
+    background-image: url(https://www.analystik.ca/blogue/wp-content/uploads/2019/03/shutterstock_121286026.jpg);
     background-repeat: repeat;
     background-size: cover;
+    height:100vh;
 }
 
 header{
-    font-size: 1.3vw;
+    font-family: 'Ravi Prakash', cursive;
+    font-size: 2vw;
     text-align: center;
     padding-top: 4vh;
-    color: rgb(36, 36, 61);
+    color: rgb(236, 236, 236);
+}
+.pgp{
+    position:absolute;
+    left: 34.5vw;
+    top: 13vh;
+    font-family: 'Fira Sans Condensed', sans-serif;
 }
 .main{
-    background-color: rgba(223, 223, 223, 0.76);
-    width: 35vw;
-    height:40vh;
+    background-color: rgba(226, 226, 226, 0.904);
+    width: 28vw;
+    height:49vh;
     border-radius: 10px;
     box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
     position: fixed;
     left: 50vw;
     top: 50vh;
-  
+    padding-top: 10px;
     transform: translate(-50%, -50%);
 }
 
-
 .welcome{
+    font-family: 'Anton', sans-serif;
     position: relative;
-    left: 5vw;
-    top:7vh;
-    font-size: 1vw;
+    left: 38%;
+    top:4vh;
+    font-size: 2vw;
     color: rgb(48, 19, 0);
 }
 
 .Invalid{
     position: relative;
-    left: 5vw;
-    top:13vh;
-    font-size: 1vw;
+    left: 4vw;
+    top:11vh;
+    font-size: 1.2vw;
     color: rgba(228, 0, 0, 0.774);
 }
 
 .form-control-plaintext{
     position: relative;
-    left: 5vw;
-    top:8vh;
+    left: 4vw;
+    top:6vh;
     border-radius: 0.2cm;
     background-color: rgba(255, 255, 255, 0.664) ;
     width: 20vw;
@@ -64,8 +72,8 @@ header{
 }
 .form-control{
     position: relative;
-    left: 5vw;
-    top:9vh;
+    left: 4vw;
+    top:7vh;
     border-radius: 0.2cm;
     background-color: rgba(255, 255, 255, 0.664) ;
     width: 20vw;
@@ -76,13 +84,13 @@ header{
 
 .btn {
     position: relative;
-    left: 5vw;
-    top:11vh;
+    left: 4vw;
+    top:9vh;
     border-radius: 0.2cm;
-    width: 10vw;
+    width: 20vw;
     height:5vh;
     font-size: 1vw;
-    background-color: rgba(90, 196, 190, 0.836);
+    background-color: rgb(112 173 181 / 84%);
     cursor:pointer;
     outline:none;
     border:none;
@@ -96,4 +104,21 @@ header{
     color: #666;
     transition: opacity 0.1s 0.1s ease;
     opacity: 0;
+}
+#staticEmail:focus {
+    outline: none;
+}
+#inputPassword:focus {
+    outline: none;
+}
+.icon{
+    background: url(https://i.pinimg.com/originals/a9/4e/ed/a94eedba4571e9a93eff1f51db48c39f.png);
+    position: relative;
+    left:34%;
+    width: 11vw;
+    height: 9vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+    margin: 0px;
 }

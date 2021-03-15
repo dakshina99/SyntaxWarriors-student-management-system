@@ -4,21 +4,155 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
-        <link rel="stylesheet "href={{ url_for('static', filename='css/IndexStyle.css') }}>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Ravi+Prakash&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+    <style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+
+    font-family: 'Roboto', sans-serif;
+
+}
+.outer{
+    background-image: url(https://www.analystik.ca/blogue/wp-content/uploads/2019/03/shutterstock_121286026.jpg);
+    background-repeat: repeat;
+    background-size: cover;
+    height:100vh;
+}
+
+header{
+    font-family: 'Ravi Prakash', cursive;
+    font-size: 2vw;
+    text-align: center;
+    padding-top: 4vh;
+    color: rgb(236, 236, 236);
+}
+.pgp{
+    position:absolute;
+    left: 34.5vw;
+    top: 13vh;
+    font-family: 'Fira Sans Condensed', sans-serif;
+}
+.main{
+    background-color: rgba(226, 226, 226, 0.904);
+    width: 28vw;
+    height:49vh;
+    border-radius: 10px;
+    box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    padding-top: 10px;
+    transform: translate(-50%, -50%);
+}
+
+.welcome{
+    font-family: 'Anton', sans-serif;
+    position: relative;
+    left: 38%;
+    top:4vh;
+    font-size: 2vw;
+    color: rgb(48, 19, 0);
+}
+
+.Invalid{
+    position: relative;
+    left: 4vw;
+    top:11vh;
+    font-size: 1.2vw;
+    color: rgba(228, 0, 0, 0.774);
+}
+
+.form-control-plaintext{
+    position: relative;
+    left: 4vw;
+    top:6vh;
+    border-radius: 0.2cm;
+    background-color: rgba(255, 255, 255, 0.664) ;
+    width: 20vw;
+    height:5vh;
+    font-size: 1vw;
+    border: 2px solid rgb(179, 179, 179);
+}
+.form-control{
+    position: relative;
+    left: 4vw;
+    top:7vh;
+    border-radius: 0.2cm;
+    background-color: rgba(255, 255, 255, 0.664) ;
+    width: 20vw;
+    height:5vh;
+    font-size: 1vw;
+    border: 2px solid rgb(179, 179, 179);
+}
+
+.btn {
+    position: relative;
+    left: 4vw;
+    top:9vh;
+    border-radius: 0.2cm;
+    width: 20vw;
+    height:5vh;
+    font-size: 1vw;
+    background-color: rgb(112 173 181 / 84%);
+    cursor:pointer;
+    outline:none;
+    border:none;
+    box-shadow: #999;
+}
+
+.btn:active{
+    transform: translateY(2px);
+}
+[placeholder]:focus::-webkit-input-placeholder{
+    color: #666;
+    transition: opacity 0.1s 0.1s ease;
+    opacity: 0;
+}
+#staticEmail:focus {
+    outline: none;
+}
+#inputPassword:focus {
+    outline: none;
+}
+.icon{
+    background: url(https://i.pinimg.com/originals/a9/4e/ed/a94eedba4571e9a93eff1f51db48c39f.png);
+    position: relative;
+    left:34%;
+    width: 11vw;
+    height: 9vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+    margin: 0px;
+}
+    </style>
     </head>
     <body>
+        <div class="outer">
         <div style="width:100%;">
         <div class = "top">
         <header>
-            <h1>Student Request<br>Management System</h1>
+            <h1>TERRA</h1>
+            <p class="pgp">Student Request Management System</p>
         </header>
         <main>
             <form method="POST">
             <div class="main">
+            <span class="icon"></span>
             <div class="welcome">
-                Already have an account?
+                <strong>Sign In</strong>
             </div>
             <div class="mb-3 row1">
                 <div class="col-sm-10">
@@ -37,6 +171,7 @@
             </div>
             </form>
         </main>
+        </div>
         </div>
         </div>
     </body>

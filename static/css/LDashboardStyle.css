@@ -2,32 +2,49 @@ body {
   padding: 0;
   margin: 0;
   background: #eee;
+  background-image: url(https://lh3.googleusercontent.com/proxy/JibyBMQFkWoQJ2w9ddWmMs33kpP1noac5Qq8WS0cE5R6z5hTsteRHzMCUD_fQRnHQMRN_NA7nZIyMVueeGF1I6gVBJB-phY7y60qvOgp_Q);
+  background-size: cover;
 }
 .all {
-  padding-top: 3vh;
+  padding-top:14vh;
 }
-header {
-  position: sticky;
-  background-color: rgb(67 28 58);
-  text-align: left;
-  padding: 1px;
-  padding-left: 10px;
-  margin-top: 0px;
+.container{
+  z-index: 1;
+}
+
+header{
+position: fixed;
+background-color:#145077;
+text-align: left;
+padding: 1px;
+padding-left: 10px;
+margin-top: 0px;
+width: 100vw;
+z-index: 2;
 }
 
 .h1 {
-  position: sticky;
-  font-size: 1.4vw;
+  font-size: 22px;
   color: white;
   margin-bottom: 30px;
 }
 
 .username {
-  color: #eee;
-  position: absolute;
-  top: 2.7vh;
-  right: 3vw;
-  font-size: 1.2vw;
+  position: fixed;
+  top: 0.44cm;
+  right: 1.2cm;
+  font-size: 20px;
+  color: white;
+}
+
+.uicon{
+  position: relative;
+  float: left;
+  width: 0.75cm;
+  height: 0.75cm;
+  background-size: cover;
+  background-image: url(https://research.cbc.osu.edu/sokolov.8/wp-content/uploads/2017/12/profile-icon-png-898.png);
+  z-index: 999;
 }
 
 .settings {
@@ -166,11 +183,11 @@ header {
 .filters1 {
   top: 3vh;
 }
-.OutFill {
-  background-color: rgb(202, 202, 202);
+.OutFill{
+  background-color: rgb(235, 235, 235);
   margin-top: 4vh;
   margin-bottom: 4vh;
-  border: 2px solid rgb(202, 202, 202);
+  border: 1px solid rgb(221, 221, 221);
   padding: 16px;
 }
 .fill {
@@ -181,14 +198,14 @@ header {
   border: 2px solid rgb(180, 178, 178);
 }
 .fill2 {
-  width: 175px;
+  width: 11.5vw;
 }
 .lab1 {
   font-weight: 1px;
 }
 .drop {
   height: 28px;
-  width: 190px;
+  width: 15vw;
   border-radius: 0.1cm;
   margin-bottom: 10px;
 }
@@ -197,9 +214,15 @@ header {
   position: relative;
   width: 80px;
 }
-.fillbtn {
+.fillbtn{
+  width: 15vw;
+  background-color: #7f7f7f;
   position: relative;
-  color: #14191b;
+  color: #e9e9e9;
+}
+
+.fillbtn:hover{
+  color: #e9e9e9;
 }
 
 .btn:active {
