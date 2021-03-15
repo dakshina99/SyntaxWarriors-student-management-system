@@ -59,13 +59,25 @@ class MySQLClient:
         print("Record is entered successfully")
 
     # Entering data to the application table
-    def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded):
+    def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded, required):
         cursor = self.connection.cursor()
         # Execute the query
-        query = """INSERT INTO `{}` (idapplications,request_status,Details,evidence,filename,from_id,to_id,requestType,date,studentReaded, staffReaded) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""".format(
+        query = """INSERT INTO `{}` (idapplications,request_status,Details,evidence,filename,from_id,to_id,requestType,date,studentReaded, staffReaded,required) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""".format(
             tableName)
         val = (idapplications, request_status, Details,
-               evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded)
+               evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded, required)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record is entered successfully")
+
+    # Entering data to the comments table
+    def insert_commentData(self, tableName, idComments, commentUserType, content, idThreads, dateTime):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """INSERT INTO `{}` (idComments, commentUserType, content, idThreads, dateTime) VALUES (%s,%s,%s,%s,%s);""".format(
+            tableName)
+        val = (idComments, commentUserType, content, idThreads, dateTime)
         cursor.execute(query, val)
         self.connection.commit()
 
@@ -79,6 +91,28 @@ class MySQLClient:
 
         val = (Password, StudentUsername)
         cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def removeEvidence(self, tableName, idapplications):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET evidence = '', filename = '' WHERE idapplications=%s;""".format(
+            tableName)
+        val = (idapplications,)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateEvidence(self, tableName, idapplications, evidence, filename):
+        cursor = self.connection.cursor()
+        # Execute the query
+        strId = str(idapplications)
+        query = """UPDATE `{}` SET evidence = `{}`, filename = `{}` WHERE idapplications=`{}`;""".format(
+            tableName, evidence, filename, strId)
+        cursor.execute(query)
         self.connection.commit()
 
         print("Record updated successfully")
@@ -122,6 +156,28 @@ class MySQLClient:
         query = """UPDATE `{}` SET staffReaded=%s WHERE idapplications=%s;""".format(
             tableName)
         val = (staffReaded, idapplications)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateApplicationMore(self, tableName, idapplications, required):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET required=%s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (required, idapplications)
+        cursor.execute(query, val)
+        self.connection.commit()
+
+        print("Record updated successfully")
+
+    def updateApplicationDetails(self, tableName, idapplications, Details):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET Details=%s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (Details, idapplications)
         cursor.execute(query, val)
         self.connection.commit()
 
@@ -172,6 +228,14 @@ class MySQLClient:
         # Execute the query
         cursor.execute(
             "SELECT * FROM {} WHERE idadministrators='{}'".format(tableName, idadministrators))
+        return cursor.fetchall()
+
+    def searchDataFromIdThreadsUsingCommentTable(self, tableName, idThreads):
+        # Read data from a table
+        cursor = self.connection.cursor()
+        # Execute the query
+        cursor.execute(
+            "SELECT * FROM {} WHERE idThreads='{}'".format(tableName, idThreads))
         return cursor.fetchall()
 
     def searchDataFromStaffTable(self, tableName, username):

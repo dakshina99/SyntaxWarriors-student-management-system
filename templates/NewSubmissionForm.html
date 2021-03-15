@@ -12,244 +12,255 @@
     />
     <title>Application Form</title>
     <style>
-        /* Style inputs, select elements and textareas */
-input[type="text"],
-select,
-textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  /* resize: vertical; */
-  resize: none; /* added later*/
-}
+      /* Style inputs, select elements and textareas */
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        /* resize: vertical; */
+        resize: none; /* added later*/
+      }
 
-input[readonly],
-textarea[readonly]{
-  background-color:#e7e7e7;
-}
+      input[readonly],
+      textarea[readonly] {
+        background-color: #e7e7e7;
+      }
 
-input[type="text"]:focus{
-  outline: none;
-}
+      input[type="text"]:focus {
+        outline: none;
+      }
 
-textarea:focus{
-  outline: none;
-}
+      textarea:focus {
+        outline: none;
+      }
 
-* {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
+      * {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
 
-.outer{
-  background-image: url(https://ringdedektiflik.com/wp-content/uploads/2020/12/2-1.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  position:absolute;
-  width:100vw;
-}
+      .outer {
+        background-image: url(https://ringdedektiflik.com/wp-content/uploads/2020/12/2-1.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        width: 100vw;
+      }
 
+      /* Style the label to display next to the inputs */
+      label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+      }
 
-/* Style the label to display next to the inputs */
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
+      /* Style the submit button */
+      input[type="submit"] {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+      }
 
-/* Style the submit button */
-input[type="submit"] {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
-}
+      /* Style the container */
+      .Appcontainer {
+        z-index: 2;
+        border-radius: 10px;
+        background-color: #e9e9e9ed;
+        height: 20cm;
+        width: 16cm;
+        margin: auto;
+        margin-top: 1cm;
+        padding: 20px;
+        box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
+      }
 
-/* Style the container */
-.Appcontainer {
-  z-Index:2;
-  border-radius: 10px;
-  background-color: #e9e9e9ed;
-  height: 20cm;
-  width: 16cm;
-  margin: auto;
-  margin-top: 1cm;
-  padding: 20px;
-  box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
-}
+      /* Floating column for labels: 25% width */
+      .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 14px;
+      }
 
-/* Floating column for labels: 25% width */
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 14px;
-}
+      /* Floating column for inputs: 75% width */
+      .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 16px;
+      }
 
-/* Floating column for inputs: 75% width */
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 16px;
-}
+      .comB {
+        width: 100%;
+        height: 5cm;
+        width: 75%;
+        position: relative;
+        bottom: -0.6cm;
+        float: right;
+      }
 
-.comB{
-  width: 100%;
-  height: 5cm;
-  width: 75%;
-  position: relative;
-  bottom:-0.6cm;
-  float: right;
-}
+      .recieve {
+        display: block;
+        text-align: left;
+        color: #800000;
+      }
 
-.recieve{
-  display: block; 
-  text-align: left;
-  color: #800000;
-}
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.Appheading {
-  position: relative;
-  text-align: center;
-}
-.submitbut {
-  position: relative;
-  bottom: 20%;
-  left: 20%;
-  align-self: center;
-  align-items: center;
-  margin-top: 5cm;
-  margin-left: 185pt;
-}
-.choosefile {
-  margin-top: 10px;
-}
+      .Appheading {
+        position: relative;
+        text-align: center;
+      }
+      .submitbut {
+        position: relative;
+        bottom: 20%;
+        left: 20%;
+        align-self: center;
+        align-items: center;
+        margin-top: 5cm;
+        margin-left: 185pt;
+      }
+      .choosefile {
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
     <div class="outer">
-    <form method="POST" action="/upload" enctype="multipart/form-data">
-      <div class="Appcontainer">
-        <h1 class="Appheading">Application</h1>
-        <form action="action_page.php">
-          <div class="row">
-            <div class="col-25">
-              <label for="fname"><strong>Name</strong></label>
+      <form method="POST" action="/upload" enctype="multipart/form-data">
+        <div class="Appcontainer">
+          <h1 class="Appheading">Application</h1>
+          <form action="action_page.php">
+            <div class="row">
+              <div class="col-25">
+                <label for="fname"><strong>Name</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  type="text"
+                  id="fname"
+                  name="studentName"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="col-25">
+                <label for="fname"><strong>Index No.</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="fname"
+                  name="studentId"
+                  value="{{studentAdmissionNum}}"
+                />
+              </div>
+              <div class="col-25">
+                <label for="fname"><strong>Assign to</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  type="text"
+                  id="fname"
+                  name="staffName"
+                  placeholder="Administrator's name.."
+                />
+              </div>
             </div>
-            <div class="col-75">
-              <input
-                type="text"
-                id="fname"
-                name="studentName"
-                placeholder="Enter your name"
-              />
-            </div>
-            <div class="col-25">
-              <label for="fname"><strong>Index No.</strong></label>
-            </div>
-            <div class="col-75">
-              <input
-                readonly
-                type="text"
-                id="fname"
-                name="studentId"
-                value={{studentAdmissionNum}}
-              />
-            </div>
-            <div class="col-25">
-              <label for="fname"><strong>Assign to</strong></label>
-            </div>
-            <div class="col-75">
-              <input
-                type="text"
-                id="fname"
-                name="staffName"
-                placeholder="Administrator's name.."
-              />
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="col-25">
-              <label for="RequestType"><strong>Request Type</strong></label>
+            <div class="row">
+              <div class="col-25">
+                <label for="RequestType"><strong>Request Type</strong></label>
+              </div>
+              <div class="col-75">
+                <select id="RequestType" name="RequestType">
+                  <option id="selectOption" value="" disabled selected hidden>
+                    -Select-
+                  </option>
+                  <option value="1">Late add/drop requests</option>
+                  <option value="2">
+                    Repeat exams as first attempt with the next batch
+                  </option>
+                  <option value="3">
+                    Extend assignment submission deadlines
+                  </option>
+                  <option value="4">Rearrange of practical</option>
+                  <option value="5">Other</option>
+                </select>
+              </div>
             </div>
-            <div class="col-75">
-              <select id="RequestType" name="RequestType">
-                <option id="selectOption" value="" disabled selected hidden>
-                  -Select-
-                </option>
-                <option value="1">Late add/drop requests</option>
-                <option value="2">
-                  Repeat exams as first attempt with the next batch
-                </option>
-                <option value="3">
-                  Extend assignment submission deadlines
-                </option>
-                <option value="4">Rearrange of practical</option>
-                <option value="5">Other</option>
-              </select>
+            <div class="row">
+              <div class="col-25">
+                <label for="subject"><strong>Details</strong></label>
+              </div>
+              <div class="col-75">
+                <textarea
+                  id="subject"
+                  name="subject"
+                  placeholder="Explain your request.."
+                  style="height: 200px"
+                ></textarea>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-25">
-              <label for="subject"><strong>Details</strong></label>
-            </div>
-            <div class="col-75">
-              <textarea
-                id="subject"
-                name="subject"
-                placeholder="Explain your request.."
-                style="height: 200px"
-              ></textarea>
-            </div>
-          </div>
-          <form method="POST" action="/upload" enctype="multipart/form-data">
-          <div class="row">
-            <div class="col-25">
-              <label for="lname"><strong>Evidence</strong></label>
-            </div>
-            <div class="col-75">
-              <form action="/action_page.php">
-                <div class="choosefile">
-                  <form method="POST" action="/upload" enctype="multipart/form-data">
-                    <input type="file" id="myFile" name="filename" />
-                  </form>
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-25">
+                  <label for="lname"><strong>Evidence</strong></label>
                 </div>
-              </form>
-              <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
-            </div>
-          </div>
-          </form>
+                <div class="col-75">
+                  <form action="/action_page.php">
+                    <div class="choosefile">
+                      <form
+                        method="POST"
+                        action="/upload"
+                        enctype="multipart/form-data"
+                      >
+                        <input type="file" id="myFile" name="filename" />
+                      </form>
+                    </div>
+                  </form>
+                  <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
+                </div>
+              </div>
+            </form>
 
-          <div class="row">
-            <div class="col-25">
-              <label for="lname"><strong>Request Status</strong></label>
+            <div class="row">
+              <div class="col-25">
+                <label for="lname"><strong>Request Status</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="lname"
+                  name="lastname"
+                  placeholder=""
+                />
+              </div>
             </div>
-            <div class="col-75">
-              <input
-                readonly
-                type="text"
-                id="lname"
-                name="lastname"
-                placeholder=""
-              />
-            </div>
+          </form>
+          <div class="submitbut">
+            <button
+              class="ui primary button subButton"
+              value="apply"
+              name="apply"
+            >
+              Submit
+            </button>
+            <button class="ui button" value="discard" name="discard">
+              Discard
+            </button>
+          </div>
         </div>
-        </form>
-        <div class="submitbut">
-          <button class="ui primary button subButton" value="apply" name="apply"> Submit</button>
-          <button class="ui button" value="discard" name="discard">Discard</button>
-        </div>
-      </div>
-    </form>
+      </form>
     </div>
   </body>
 </html>

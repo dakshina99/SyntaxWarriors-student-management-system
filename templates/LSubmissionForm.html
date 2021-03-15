@@ -99,7 +99,11 @@
                     <button class="dbut" type="submit" name="downloadFile" value="downloadFile" onclick="{{url_for('download_files')}}"></button><label class="cboxlab">&ensp;{{filename}}</label>
                   </form>
                 {% endif %}
-                <label class="cbox cboxlab">&ensp;Request more Evidence</label><input type="checkbox" class="cbox">
+                {% if required=='1'%}
+                  <label class="cbox cboxlab">&ensp;Request more Evidence</label><input type="checkbox" class="cbox" name="more" value="more" checked>
+                {% else %}
+                  <label class="cbox cboxlab">&ensp;Request more Evidence</label><input type="checkbox" class="cbox" name="more" value="more">
+                {% endif %}
               </div>
             <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
           </div>
@@ -135,14 +139,29 @@
             <div class="comB">
               <div id="shouts">
                 <ul>
-                  <li class="shout recieve">Hey, what are you guys doing?</li>
-                  <li class="shout sent">Nothing much, you?</li>
+                  {% if previousComments != [] %} {% for comment in
+                      previousComments %} {% if comment[1]==1 %}
+                      <li class="shout recieve">
+                        {{comment[4]}} : {{comment[2]}}
+                      </li>
+                      {% else %}
+                      <li class="shout sent">
+                        {{comment[2]}} : {{comment[4]}}
+                      </li>
+                      {% endif %} {% endfor %} {% endif %} {% for comment in
+                      tempComments %} {% if comment[2]=='1' %}
+                      <li class="shout recieve">
+                        {{comment[1]}} : {{comment[0]}}
+                      </li>
+                      {% else %}
+                      <li class="shout sent">
+                        {{comment[0]}} : {{comment[1]}}
+                      </li>
+                      {% endif %} {% endfor %}
                 </ul>
               </div>
               <div id="input">
-                <form>
-                  <input id="input" type="text" name="user" placeholder="Enter Your Message"/><button class="ui addcom button">Add</button>
-                </form>
+                <input id="input" type="text" name="newComment" placeholder="Enter Your Message"/>
               </div>
             </div>
         </div>
@@ -151,6 +170,14 @@
       <div class="submitbut">
         <button class="ui primary button subButton" value="submitLSview" name="submitLview">Submit</button>
         <button class="ui button" value="discardLSview" name="discardLview">Discard</button>
+        <button
+              class="ui addcom button"
+              type="submit"
+              name="add"
+              value="add"
+            >
+              Add
+            </button>
       </div>
     </div>
     </form>

@@ -5,8 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href={{ url_for('static', filename='css/Application.css') }} />
-    <link rel="stylesheet" href={{ url_for('static', filename='css/CommentBoxStyle.css') }} />
+    <link rel="stylesheet" href={{ url_for('static',
+    filename='css/Application.css') }} /> <link rel="stylesheet" href={{
+    url_for('static', filename='css/CommentBoxStyle.css') }} />
     <link
       rel="stylesheet"
       href="https://semantic-ui.com/dist/semantic.min.css"
@@ -15,137 +16,192 @@
     <title>Application Form</title>
   </head>
   <body>
-  <div class="outer">
-    <form method="POST">
-    <div class="Appcontainer">
-      <h1 class="Appheading">Application</h1>
-      <form action="action_page.php">
-        <div class="row">
-          <div class="col-25">
-            <label for="fname"><strong>Name</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="fname"
-              name="firstname"
-              value={{username}}
-            />
-          </div>
-          <div class="col-25">
-            <label for="fname"><strong>Index No.</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="fname"
-              name="firstname"
-              value={{studentAdmissionNum}}
-            />
-          </div>
-          <div class="col-25">
-            <label for="fname"><strong>Assign to</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="fname"
-              name="firstname"
-              value={{staffName}}
-            />
-          </div>
-        </div>
+    <div class="outer">
+      <form method="POST">
+        <div class="Appcontainer">
+          <h1 class="Appheading">Application</h1>
+          <form action="action_page.php">
+            <div class="row">
+              <div class="col-25">
+                <label for="fname"><strong>Name</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="fname"
+                  name="firstname"
+                  value="{{username}}"
+                />
+              </div>
+              <div class="col-25">
+                <label for="fname"><strong>Index No.</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="fname"
+                  name="firstname"
+                  value="{{studentAdmissionNum}}"
+                />
+              </div>
+              <div class="col-25">
+                <label for="fname"><strong>Assign to</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="fname"
+                  name="firstname"
+                  value="{{staffName}}"
+                />
+              </div>
+            </div>
 
-        <div class="row">
-          <div class="col-25">
-            <label for="RequestType"><strong>Request Type</strong></label>
-          </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="RequestType"
-              name="RequestType"
-              value="{{requestValue}}"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="subject"><strong>Details</strong></label>
-          </div>
-          <div class="col-75">
-            <textarea
-              readonly
-              id="subject"
-              name="subject"
-              style="height: 200px"
-              
-            >{{details}}</textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="lname"><strong>Evidence</strong></label>
-          </div>
-          <div class="col-75">
-            <form action="/action_page.php">
-              <div class="choosefile">
-                {% if isnull==True %}
-                  No file attached
-                {% else %}
-                  <form method = "POST" action="/download">
-                    <button class="dbut" type="submit" name="downloadFile" value="downloadFile" onclick="{{url_for('download_files')}}"></button><label class="cboxlab">&ensp;{{filename}}</label>
+            <div class="row">
+              <div class="col-25">
+                <label for="RequestType"><strong>Request Type</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="RequestType"
+                  name="RequestType"
+                  value="{{requestValue}}"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-25">
+                <label for="subject"><strong>Details</strong></label>
+              </div>
+              <div class="col-75">
+                <textarea
+                  readonly
+                  id="subject"
+                  name="subject"
+                  style="height: 200px"
+                >
+{{details}}</textarea
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-25">
+                <label for="lname"><strong>Evidence</strong></label>
+              </div>
+              <div class="col-75">
+                <div class="choosefile">
+                  {% if isnull==True %}
+                  <form
+                    method="POST"
+                    action="/upload2"
+                    enctype="multipart/form-data"
+                  >
+                    <input type="file" id="myFile" name="filename" />
+                    <button type="submit">Submit</button>
                   </form>
-                {% endif %}
+                  {% else %}
+                  <form method="POST" action="/download">
+                    <button
+                      class="dbut"
+                      type="submit"
+                      name="downloadFile"
+                      value="downloadFile"
+                      onclick="{{url_for('download_files')}}"
+                    ></button
+                    ><label class="cboxlab">&ensp;{{filename}}</label>
+                  </form>
+                  {% endif %}
+                </div>
+                <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
               </div>
-            <!-- <input type="text" id="lname" name="lastname" placeholder="" /> -->
-          </div>
-        </div>
+            </div>
 
-        <div class="row">
-          <div class="col-25">
-            <label for="lname"><strong>Request Status</strong></label>
+            <div class="row">
+              <div class="col-25">
+                <label for="lname"><strong>Request Status</strong></label>
+              </div>
+              <div class="col-75">
+                <input
+                  readonly
+                  type="text"
+                  id="RequestType"
+                  name="RequestType"
+                  value="{{status}}"
+                />
+              </div>
+              <div class="row">
+                <div class="col-25">
+                  <label for="fname"><strong>Comments</strong></label>
+                </div>
+                <div class="comB">
+                  <div id="shouts">
+                    <ul>
+                      {% if previousComments != [] %} {% for comment in
+                      previousComments %} {% if comment[1]==0 %}
+                      <li class="shout recieve">
+                        {{comment[4]}} : {{comment[2]}}
+                      </li>
+                      {% else %}
+                      <li class="shout sent">
+                        {{comment[2]}} : {{comment[4]}}
+                      </li>
+                      {% endif %} {% endfor %} {% endif %} {% for comment in
+                      tempComments %} {% if comment[2]=='0' %}
+                      <li class="shout recieve">
+                        {{comment[1]}} : {{comment[0]}}
+                      </li>
+                      {% else %}
+                      <li class="shout sent">
+                        {{comment[1]}} : {{comment[0]}}
+                      </li>
+                      {% endif %} {% endfor %}
+                    </ul>
+                  </div>
+                  <div id="input">
+                    <input
+                      id="input"
+                      type="text"
+                      name="newComment"
+                      placeholder="Enter Your Message"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="submitbut">
+            <button
+              class="ui primary button subButton"
+              type="submit"
+              value="submitSview"
+              name="submitSview"
+            >
+              Submit
+            </button>
+            <button
+              class="ui button"
+              type="submit"
+              value="discardSview"
+              name="discardSview"
+            >
+              Discard
+            </button>
+            <button
+              class="ui addcom button"
+              type="submit"
+              name="add"
+              value="add"
+            >
+              Add
+            </button>
           </div>
-          <div class="col-75">
-            <input
-              readonly
-              type="text"
-              id="RequestType"
-              name="RequestType"
-              value={{status}}
-            />
-            </div>
-        </form>
-          <div class="row">
-          <div class="col-25">
-            <label for="fname"><strong>Comments</strong></label>
-            </div>
-            <div class="comB">
-              <div id="shouts">
-                <ul>
-                  <li class="shout recieve">Hey, what are you guys doing?</li>
-                  <li class="shout sent">Nothing much, you?</li>
-                </ul>
-              </div>
-              <div id="input">
-                <form>
-                  <input id="input" type="text" name="user" placeholder="Enter Your Message"/><button class="ui addcom button">Add</button>
-                </form>
-              </div>
-            </div>
         </div>
-      </div>
       </form>
-      <div class="submitbut">
-        <button class="ui primary button subButton" type="submit" value="submitSview" name="submitSview">Submit</button>
-        <button class="ui button" type="submit" value="discardSview" name="discardSview">Discard</button>
-      </div>
     </div>
-    </form>
-  </div>
   </body>
 </html>
