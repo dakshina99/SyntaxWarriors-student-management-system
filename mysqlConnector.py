@@ -109,10 +109,11 @@ class MySQLClient:
     def updateEvidence(self, tableName, idapplications, evidence, filename):
         cursor = self.connection.cursor()
         # Execute the query
-        strId = str(idapplications)
-        query = """UPDATE `{}` SET evidence = `{}`, filename = `{}` WHERE idapplications=`{}`;""".format(
-            tableName, evidence, filename, strId)
-        cursor.execute(query)
+        #strId = str(idapplications)
+        query = """UPDATE `{}` SET evidence = %s, filename = %s WHERE idapplications=%s;""".format(
+            tableName)
+        val = (evidence, filename, idapplications)
+        cursor.execute(query, val)
         self.connection.commit()
 
         print("Record updated successfully")

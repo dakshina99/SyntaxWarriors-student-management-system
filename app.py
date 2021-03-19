@@ -244,6 +244,10 @@ def staff():
 def studentRevisit():
     global tempComments
     global previousComments
+    global required
+    global studentId
+    global userId
+    global studentId
     applicationId = request.args.get("applicationId")
     required = request.args.get("required")
     userId = request.args.get("userId")
@@ -264,6 +268,7 @@ def studentRevisit():
                 dbObj.insert_commentData(
                     'comments', indexComment, "1", comment[0], globaCurrentlId, comment[1])
         return redirect(url_for('student', username=username))
+
     # download icon cn
     if request.form.get("downloadFile"):
         return redirect(url_for("download_files", applicationId=applicationId))
@@ -299,12 +304,28 @@ def studentRevisit():
         status = "Accepted"
     else:
         status = "Declined"
+    if request.form.get('RsubmitSview'):
+        dbObj.updateApplicationStaffRead('applications', applicationId, '0')
+        if tempComments != []:
+            indexComment = len(dbObj.readDataFromTable('student', 'comments'))
+            for comment in tempComments:
+                indexComment += 1
+                dbObj.insert_commentData(
+                    'comments', indexComment, "1", comment[0], globaCurrentlId, comment[1])
+        return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+
     if request.form.get('add'):
         newComment = request.form['newComment']
         today = datetime.today().strftime('%b %d')
         tempComments.append([newComment, today, '1'])
+        if required == '1':
+            return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+        else:
+            return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+    if required == '1':
+        return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+    else:
         return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
-    return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
 
 
 # student revisit view
@@ -478,13 +499,21 @@ def upload():
 @ app.route('/upload2', methods=['POST'])
 def upload2():
     print("run")
-
+    global globaCurrentlId
+    global required
+    global userId
+    global studentId
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
-
+    global globaCurrentlId
+    print(globaCurrentlId, type(globaCurrentlId))
     file = request.files['filename']
-    dbObj.updateEvidence('applications', file.read(), file.filename)
-    return redirect(url_for('student', username=session['user']))
+    dbObj.updateEvidence('applications', globaCurrentlId,
+                         file.read(), file.filename)
+    if file.filename != '':
+        dbObj.updateApplicationMore('applications', globaCurrentlId, '0')
+    dbObj.updateApplicationStatus('applications', globaCurrentlId, '2')
+    return redirect(url_for('studentRevisit', applicationId=globaCurrentlId, required=required, userId=userId, studentId=studentId))
 
 
 if __name__ == "__main__":

@@ -97,7 +97,14 @@
               <div class="col-75">
                 <div class="choosefile">
                   {% if isnull==True %}
-                    No file attached
+                  <form
+                    method="POST"
+                    action="/upload2"
+                    enctype="multipart/form-data"
+                  >
+                    <input type="file" id="myFile" name="filename" />
+                    <button type="submit" name='uploadFile' value='uploadFile'>Submit</button>
+                  </form>
                   {% else %}
                   <form method="POST" action="/download">
                     <button
