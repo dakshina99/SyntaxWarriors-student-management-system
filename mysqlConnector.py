@@ -29,7 +29,6 @@ class MySQLClient:
         cursor = self.connection.cursor()
         # Execute the query
         cursor.execute("USE {}".format(dbName))
-        print('Database entering is successful')
 
     def showTables(self, dbName):
         # Show tabales inside the database
@@ -56,8 +55,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record is entered successfully")
-
     # Entering data to the application table
     def insert_applicationData(self, tableName, idapplications, request_status, Details, evidence, filename, from_id, to_id, requestType, today, studentReaded, staffReaded, required):
         cursor = self.connection.cursor()
@@ -69,8 +66,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record is entered successfully")
-
     # Entering data to the comments table
     def insert_commentData(self, tableName, idComments, commentUserType, content, idThreads, dateTime):
         cursor = self.connection.cursor()
@@ -80,8 +75,6 @@ class MySQLClient:
         val = (idComments, commentUserType, content, idThreads, dateTime)
         cursor.execute(query, val)
         self.connection.commit()
-
-        print("Record is entered successfully")
 
     def update_Studentdata(self, tableName, StudentUsername, Password):
         cursor = self.connection.cursor()
@@ -93,8 +86,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record updated successfully")
-
     def removeEvidence(self, tableName, idapplications):
         cursor = self.connection.cursor()
         # Execute the query
@@ -103,8 +94,6 @@ class MySQLClient:
         val = (idapplications,)
         cursor.execute(query, val)
         self.connection.commit()
-
-        print("Record updated successfully")
 
     def updateEvidence(self, tableName, idapplications, evidence, filename):
         cursor = self.connection.cursor()
@@ -116,8 +105,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record updated successfully")
-
     def update_Userdata(self, tableName, UserName, UserPassword):
         cursor = self.connection.cursor()
         # Execute the query
@@ -126,8 +113,6 @@ class MySQLClient:
         val = (UserPassword, UserName)
         cursor.execute(query, val)
         self.connection.commit()
-
-        print("Record updated successfully")
 
     def updateApplicationStatus(self, tableName, idapplications, request_status):
         cursor = self.connection.cursor()
@@ -138,8 +123,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record updated successfully")
-
     def updateApplicationStudentRead(self, tableName, idapplications, studentReaded):
         cursor = self.connection.cursor()
         # Execute the query
@@ -149,8 +132,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record updated successfully")
-
     def updateApplicationStaffRead(self, tableName, idapplications, staffReaded):
         cursor = self.connection.cursor()
         # Execute the query
@@ -159,8 +140,6 @@ class MySQLClient:
         val = (staffReaded, idapplications)
         cursor.execute(query, val)
         self.connection.commit()
-
-        print("Record updated successfully")
 
     def updateCommentsThreadId(self, tableName, previousId, newId):
         cursor = self.connection.cursor()
@@ -180,8 +159,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record updated successfully")
-
     def updateApplicationDetails(self, tableName, idapplications, Details):
         cursor = self.connection.cursor()
         # Execute the query
@@ -190,8 +167,6 @@ class MySQLClient:
         val = (Details, idapplications)
         cursor.execute(query, val)
         self.connection.commit()
-
-        print("Record updated successfully")
 
     def updateApplicationRead(self, tableName, idapplications, readed):
         cursor = self.connection.cursor()
@@ -202,8 +177,6 @@ class MySQLClient:
         cursor.execute(query, val)
         self.connection.commit()
 
-        print("Record updated successfully")
-
     def update_Staffdata(self, tableName, username, password):
         cursor = self.connection.cursor()
         # Execute the query
@@ -213,8 +186,6 @@ class MySQLClient:
         val = (password, username)
         cursor.execute(query, val)
         self.connection.commit()
-
-        print("Record updated successfully")
 
     def deleteApplication(self, tableName, idapplications):
         cursor = self.connection.cursor()
@@ -324,7 +295,6 @@ class MySQLClient:
         # Convert digital data to binary format
         with open(filename, 'rb') as file:
             binaryData = file.read()
-        print(filename)
         return (binaryData, filename)
 
     def insert_filetest(self, tableName, id, name, filecontent, filename):
@@ -344,14 +314,3 @@ class MySQLClient:
             'SELECT * FROM {} WHERE idapplications = {}'.format(tableName, idapplications))
         current_row = cursor.fetchall()[0]
         return current_row[3], current_row[4]
-
-
-# dbObj = MySQLClient('localhost','root','','student')
-# print(dbObj.showTables('student'))
-# print(dbObj.readDataFromTable('student','users'))
-
-# dbObj.insert_data('students','23','pass23','Kamal','190045C')
-
-# dbObj.update_data('students','DDD1', '10')
-
-# print(dbObj.searchDataFromStudentTable('students','John'))

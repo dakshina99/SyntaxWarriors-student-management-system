@@ -107,7 +107,6 @@ def student():
                 unreadCount += 1
             staffName = dbObj.searchDataFromIdUsingStaffTable('administrators', to_id)[
                 0][2]
-            # print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
             temp.append(application[0])
             temp.append(staffName)
             temp.append(requestValue)
@@ -233,7 +232,6 @@ def staff():
                 unreadCount += 1
             studentName = dbObj.searchDataFromIdUsingStudentTable('students', from_id)[
                 0][2]
-            # print(dbObj.searchDataFromIdUsingStudentTable('students', from_id))
             temp.append(application[0])
             temp.append(studentName)
             temp.append(requestValue)
@@ -285,6 +283,12 @@ def studentRevisit():
             dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
             dbObj.deleteApplication('applications', globaCurrentlId)
             globaCurrentlId = newIndex
+            if request.form.get("more"):
+                dbObj.updateApplicationMore(
+                    'applications', newIndex, '1')
+                dbObj.removeEvidence('applications', newIndex)
+            elif not(request.form.get("more")):
+                dbObj.updateApplicationMore('applications', newIndex, '0')
             ##########################################################
             indexComment = len(dbObj.readDataFromTable('student', 'comments'))
             for comment in tempComments:
@@ -345,6 +349,12 @@ def studentRevisit():
             dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
             dbObj.deleteApplication('applications', globaCurrentlId)
             globaCurrentlId = newIndex
+            if request.form.get("more"):
+                dbObj.updateApplicationMore(
+                    'applications', newIndex, '1')
+                dbObj.removeEvidence('applications', newIndex)
+            elif not(request.form.get("more")):
+                dbObj.updateApplicationMore('applications', newIndex, '0')
             ##########################################################
             indexComment = len(dbObj.readDataFromTable('student', 'comments'))
             for comment in tempComments:
@@ -367,7 +377,7 @@ def studentRevisit():
         return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
 
 
-# student revisit view
+# staff revisit view
 
 
 @app.route('/staffRevisit', methods=["GET", "POST"])
@@ -402,6 +412,12 @@ def staffRevisit():
             dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
             dbObj.deleteApplication('applications', globaCurrentlId)
             globaCurrentlId = newIndex
+            if request.form.get("more"):
+                dbObj.updateApplicationMore(
+                    'applications', newIndex, '1')
+                dbObj.removeEvidence('applications', newIndex)
+            elif not(request.form.get("more")):
+                dbObj.updateApplicationMore('applications', newIndex, '0')
             ##########################################################
             indexComment = len(dbObj.readDataFromTable('student', 'comments'))
             for comment in tempComments:
@@ -409,18 +425,10 @@ def staffRevisit():
                 dbObj.insert_commentData(
                     'comments', indexComment, "0", comment[0], globaCurrentlId, comment[1])
         if request.form.get("more"):
-            print('This is more')
-            print(applicationId)
             dbObj.updateApplicationMore('applications', applicationId, '1')
-            dbObj.updateApplicationMore(
-                'applications', int(applicationId)+1, '1')
             dbObj.removeEvidence('applications', applicationId)
         elif not(request.form.get("more")):
-            print('This is not more')
             dbObj.updateApplicationMore('applications', applicationId, '0')
-            dbObj.updateApplicationMore(
-                'applications', int(applicationId)+1, '0')
-            print('This is not more')
         return redirect(url_for('staff', username=username, user_name=user_name))
     if request.form.get("downloadFile"):
         return redirect(url_for("download_files", applicationId=applicationId, user_name=user_name))
@@ -453,7 +461,6 @@ def staffRevisit():
     details = applicationData[2]
     required = dbObj.searchDataFromApplicationTable(
         'applications', applicationId)[0][11]
-    print(required)
     if request.form.get('add'):
         newComment = request.form['newComment']
         today = datetime.today().strftime('%b %d at %H:%M')
@@ -517,7 +524,7 @@ def newSubmission():
     studentAdmissionNum = request.args.get('studentId')
     if request.form.get("discard"):
         return redirect(url_for('student', username=username, user_name=user_name))
-    return render_template('NewSubmissionForm.html', studentAdmissionNum=studentAdmissionNum, username=username)
+    return render_template('NewSubmissionForm.html', studentAdmissionNum=studentAdmissionNum, username=username, user_name=user_name)
 
 
 @ app.route('/logout')
@@ -556,8 +563,9 @@ def upload():
         file = request.files['filename']
         today = datetime.today().strftime('%b %d at %H:%M')
         length = dbObj.readDataFromTable('student', 'applications')[-1][0]
-        dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
-        ), file.filename, studentId, staffId, requestType, today, '1', '0', '0')
+        if request.form.get('apply'):
+            dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
+            ), file.filename, studentId, staffId, requestType, today, '1', '0', '0')
         return redirect(url_for('student', username=session['user'], user_name=user_name))
     except:
         return redirect(url_for('student', username=session['user'], user_name=user_name))
