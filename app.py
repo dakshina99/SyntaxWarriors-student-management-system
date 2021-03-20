@@ -20,16 +20,19 @@ def login():
         if 'user' not in session:
             username = request.form['username']
             password = request.form['password']
-            session['user'] = username
 
             dbObj = MySQLClient('localhost', 'root', '', 'student')
 
             for rows in dbObj.readDataFromTable('student', 'users'):
-                if rows[1] == username and rows[2] == password:
+                if rows[4] == username and rows[2] == password:
+                    global user_name
+                    user_name = username
+                    username = rows[1]
+                    session['user'] = username
                     if rows[3] == 1:
-                        return redirect(url_for("student", username=username))
+                        return redirect(url_for("student", username=username, user_name=user_name))
                     else:
-                        return redirect(url_for("staff", username=username))
+                        return redirect(url_for("staff", username=username, user_name=user_name))
         else:
             return redirect(url_for('login'))
         return render_template('Index.html', InvalidPassword="*Invalid username or password")
@@ -51,6 +54,7 @@ def before_request():
 def student():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     username = request.args.get('username')
+    user_name = request.args.get('user_name')
     global tempComments
     global previousComments
     previousComments = []
@@ -63,9 +67,9 @@ def student():
             studentId = dbObj.searchDataFromStudentTable(
                 'students', username)[0][3]
             if request.form.get("New Submission"):
-                return redirect(url_for('newSubmission', username=username, studentId=studentId))
+                return redirect(url_for('newSubmission', username=username, studentId=studentId, user_name=user_name))
             if request.form.get("discardSview"):
-                return redirect(url_for('student', username=username))
+                return redirect(url_for('student', username=username, user_name=user_name))
             # fill read only values in student revisit form
             # changed
             for index in dbObj.searchStudentRelatedApplicationIds(
@@ -77,7 +81,7 @@ def student():
                         'applications', str(index[0]), '1')
                     required = dbObj.searchDataFromApplicationTable(
                         'applications', index[0])[0][11]
-                    return redirect(url_for('studentRevisit', applicationId=str(index[0]), studentId=studentId, required=required, userId=userId))
+                    return redirect(url_for('studentRevisit', applicationId=str(index[0]), studentId=studentId, required=required, userId=userId, user_name=user_name))
         # load leaderboard applications
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
@@ -111,7 +115,7 @@ def student():
             temp.append(studentReaded)
             listOfApplications.append(temp)
 
-        return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications[::-1], length=unreadCount)
+        return render_template('SDashboard.html', username=username, errorMessage="", applications=listOfApplications[::-1], length=unreadCount, user_name=user_name)
     else:
         redirect(url_for('logout'))
 
@@ -125,6 +129,7 @@ def staff():
     global previousComments
     previousComments = []
     username = request.args.get('username')
+    user_name = request.args.get('user_name')
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     userId = dbObj.searchDataFromUserTable('users', username)[0][0]
     if 'user' in session:
@@ -137,7 +142,7 @@ def staff():
                         'comments', str(index[0]))
                     dbObj.updateApplicationStaffRead(
                         'applications', str(index[0]), '1')
-                    return redirect(url_for('staffRevisit', applicationId=str(index[0])))
+                    return redirect(url_for('staffRevisit', applicationId=str(index[0]), user_name=user_name))
 
             # for change password in staff profiles
             if request.form.get("changePassword"):
@@ -152,7 +157,7 @@ def staff():
                         'administrators', username, newPassword)
                     dbObj.update_Userdata('users', username, newPassword)
                 else:
-                    return render_template('LDashboard.html', username=username, errorMessage="⚠ Invalid password")
+                    return render_template('LDashboard.html', username=username, errorMessage="⚠ Invalid password", user_name=user_name)
 
         # filtering process
         if request.form.get("filter"):
@@ -201,7 +206,7 @@ def staff():
                 temp.append(sentDate)
                 temp.append(staffReaded)
                 listOfApplications.append(temp)
-            return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications))
+            return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications), user_name=user_name)
 
         # load leaderboard applications
         staffId = dbObj.searchDataFromStaffTable(
@@ -235,7 +240,7 @@ def staff():
             temp.append(sentDate)
             temp.append(staffReaded)
             listOfApplications.append(temp)
-        return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=unreadCount)
+        return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=unreadCount, user_name=user_name)
     else:
         redirect(url_for('logout'))
 
@@ -254,13 +259,14 @@ def studentRevisit():
     applicationId = request.args.get("applicationId")
     required = request.args.get("required")
     userId = request.args.get("userId")
+    user_name = request.args.get('user_name')
     global globaCurrentlId
     globaCurrentlId = applicationId
     studentId = request.args.get("studentId")
     username = session['user']
     isnull = False
     if request.form.get("discardSview"):
-        return redirect(url_for('student', username=username))
+        return redirect(url_for('student', username=username, user_name=user_name))
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     if request.form.get('submitSview'):
         dbObj.updateApplicationStaffRead('applications', applicationId, '0')
@@ -269,7 +275,7 @@ def studentRevisit():
             #####################updated date in application when comment ######################
             ##################get application details and insert data with updated today#####################
             # create new application and delete previous
-            today = datetime.today().strftime('%b %d')
+            today = datetime.today().strftime('%b %d at %H:%M')
             applicatonDetails = dbObj.searchDataFromApplicationTable(
                 'applications', globaCurrentlId)[0]
             newIndex = dbObj.readDataFromTable(
@@ -285,11 +291,11 @@ def studentRevisit():
                 indexComment += 1
                 dbObj.insert_commentData(
                     'comments', indexComment, "1", comment[0], globaCurrentlId, comment[1])
-        return redirect(url_for('student', username=username))
+        return redirect(url_for('student', username=username, user_name=user_name))
 
     # download icon cn
     if request.form.get("downloadFile"):
-        return redirect(url_for("download_files", applicationId=applicationId))
+        return redirect(url_for("download_files", applicationId=applicationId, user_name=user_name))
 
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
         'applications', applicationId)[0]
@@ -329,7 +335,7 @@ def studentRevisit():
             #####################updated date in application when comment ######################
             ##################get application details and insert data with updated today#####################
             # create new application and delete previous
-            today = datetime.today().strftime('%b %d')
+            today = datetime.today().strftime('%b %d at %H:%M')
             applicatonDetails = dbObj.searchDataFromApplicationTable(
                 'applications', globaCurrentlId)[0]
             newIndex = dbObj.readDataFromTable(
@@ -345,20 +351,20 @@ def studentRevisit():
                 indexComment += 1
                 dbObj.insert_commentData(
                     'comments', indexComment, "1", comment[0], globaCurrentlId, comment[1])
-        return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+        return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
 
     if request.form.get('add'):
         newComment = request.form['newComment']
         today = datetime.today().strftime('%b %d at %H:%M')
         tempComments.append([newComment, today, '1'])
         if required == '1':
-            return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+            return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
         else:
-            return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+            return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
     if required == '1':
-        return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+        return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
     else:
-        return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+        return render_template("SApplicationSubView.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
 
 
 # student revisit view
@@ -374,7 +380,7 @@ def staffRevisit():
     isnull = False
     username = session['user']
     if request.form.get("discardLview"):
-        return redirect(url_for('staff', username=username))
+        return redirect(url_for('staff', username=username, user_name=user_name))
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     if request.form.get('submitLview'):
         requestStatuss = request.form['RequestStatuss']
@@ -386,7 +392,7 @@ def staffRevisit():
             #####################updated date in application when comment ######################
             ##################get application details and insert data with updated today#####################
             # create new application and delete previous
-            today = datetime.today().strftime('%b %d')
+            today = datetime.today().strftime('%b %d at %H:%M')
             applicatonDetails = dbObj.searchDataFromApplicationTable(
                 'applications', globaCurrentlId)[0]
             newIndex = dbObj.readDataFromTable(
@@ -403,13 +409,21 @@ def staffRevisit():
                 dbObj.insert_commentData(
                     'comments', indexComment, "0", comment[0], globaCurrentlId, comment[1])
         if request.form.get("more"):
+            print('This is more')
+            print(applicationId)
             dbObj.updateApplicationMore('applications', applicationId, '1')
+            dbObj.updateApplicationMore(
+                'applications', int(applicationId)+1, '1')
             dbObj.removeEvidence('applications', applicationId)
         elif not(request.form.get("more")):
+            print('This is not more')
             dbObj.updateApplicationMore('applications', applicationId, '0')
-        return redirect(url_for('staff', username=username))
+            dbObj.updateApplicationMore(
+                'applications', int(applicationId)+1, '0')
+            print('This is not more')
+        return redirect(url_for('staff', username=username, user_name=user_name))
     if request.form.get("downloadFile"):
-        return redirect(url_for("download_files", applicationId=applicationId))
+        return redirect(url_for("download_files", applicationId=applicationId, user_name=user_name))
     applicationData = dbObj.searchRelatedDataApplicationApplicationTable(
         'applications', applicationId)[0]
 
@@ -439,14 +453,13 @@ def staffRevisit():
     details = applicationData[2]
     required = dbObj.searchDataFromApplicationTable(
         'applications', applicationId)[0][11]
+    print(required)
     if request.form.get('add'):
         newComment = request.form['newComment']
         today = datetime.today().strftime('%b %d at %H:%M')
         tempComments.append([newComment, today, '0'])
-        print(previousComments)
-        print(tempComments)
-        return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
-    return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
+        return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
+    return render_template("LSubmissionForm.html", studentAdmissionNum=studentId, username=username, studentName=studentName, requestValue=requestValue, details=details, requestStatus=requestStatus, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments, user_name=user_name)
 
 
 # for change password in students profiles
@@ -454,6 +467,7 @@ def staffRevisit():
 
 @app.route('/change', methods=['GET', 'POST'])
 def change():
+    global user_name
     username = session['user']
     dbObj = MySQLClient('localhost', 'root', '', 'student')
 
@@ -467,42 +481,43 @@ def change():
             previousPassword = dbObj.searchDataFromStudentTable('students', username)[
                 0][1]
             if request.form.get("close"):
-                return redirect(url_for('student', username=username))
+                return redirect(url_for('student', username=username, user_name=user_name))
             if oldPassword == previousPassword and newPassword == confirmPassword and newPassword != "":
                 dbObj.update_Studentdata('students', username, newPassword)
                 dbObj.update_Userdata('users', username, newPassword)
-                return redirect(url_for('student', username=username))
+                return redirect(url_for('student', username=username, user_name=user_name))
             else:
-                return render_template('settigns.html', username=username, errorMessage="⚠ Invalid password")
+                return render_template('settigns.html', username=username, errorMessage="⚠ Invalid password", user_name=user_name)
 
         else:
             previousPassword = dbObj.searchDataFromStaffTable('administrators', username)[
                 0][1]
             if request.form.get("close"):
-                return redirect(url_for('staff', username=username))
+                return redirect(url_for('staff', username=username, user_name=user_name))
             if oldPassword == previousPassword and newPassword == confirmPassword and newPassword != "":
                 dbObj.update_Staffdata('administrators', username, newPassword)
                 dbObj.update_Userdata('users', username, newPassword)
-                return redirect(url_for('staff', username=username))
+                return redirect(url_for('staff', username=username, user_name=user_name))
             else:
-                return render_template('settigns.html', username=username, errorMessage="⚠ Invalid password")
+                return render_template('settigns.html', username=username, errorMessage="⚠ Invalid password", user_name=user_name)
 
     if request.form.get("close"):
         if studentDetails != []:
-            return redirect(url_for('student', username=username))
+            return redirect(url_for('student', username=username, user_name=user_name))
         else:
-            return redirect(url_for('staff', username=username))
-    return render_template('settigns.html', username=username, errorMessage="")
+            return redirect(url_for('staff', username=username, user_name=user_name))
+    return render_template('settigns.html', username=username, errorMessage="", user_name=user_name)
 
 
 # for new submissions
 @ app.route('/application', methods=['GET', 'POST'])
 def newSubmission():
+    global user_name
     username = request.args.get('username')
     studentAdmissionNum = request.args.get('studentId')
     if request.form.get("discard"):
-        return redirect(url_for('student', username=username))
-    return render_template('NewSubmissionForm.html', studentAdmissionNum=studentAdmissionNum)
+        return redirect(url_for('student', username=username, user_name=user_name))
+    return render_template('NewSubmissionForm.html', studentAdmissionNum=studentAdmissionNum, username=username)
 
 
 @ app.route('/logout')
@@ -524,7 +539,7 @@ def download_files():
 
 @ app.route('/upload', methods=['POST'])
 def upload():
-
+    global user_name
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
     try:
@@ -539,25 +554,25 @@ def upload():
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
         file = request.files['filename']
-        today = datetime.today().strftime('%b %d')
+        today = datetime.today().strftime('%b %d at %H:%M')
         length = dbObj.readDataFromTable('student', 'applications')[-1][0]
         dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
         ), file.filename, studentId, staffId, requestType, today, '1', '0', '0')
-        return redirect(url_for('student', username=session['user']))
+        return redirect(url_for('student', username=session['user'], user_name=user_name))
     except:
-        return redirect(url_for('student', username=session['user']))
+        return redirect(url_for('student', username=session['user'], user_name=user_name))
 
 # reupload evidence func
 
 
 @ app.route('/upload2', methods=['POST'])
 def upload2():
-    print("run")
     global globaCurrentlId
     global required
     global userId
     global studentId
     global globaCurrentlId
+    global user_name
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     file = request.files['filename']
     dbObj.updateEvidence('applications', globaCurrentlId,
@@ -565,7 +580,7 @@ def upload2():
     if file.filename != '':
         dbObj.updateApplicationMore('applications', globaCurrentlId, '0')
     # create new application and delete previous
-    today = datetime.today().strftime('%b %d')
+    today = datetime.today().strftime('%b %d at %H:%M')
     applicatonDetails = dbObj.searchDataFromApplicationTable(
         'applications', globaCurrentlId)[0]
     newIndex = dbObj.readDataFromTable('student', 'applications')[-1][0] + 1
@@ -575,7 +590,7 @@ def upload2():
     dbObj.deleteApplication('applications', globaCurrentlId)
     globaCurrentlId = newIndex
 
-    return redirect(url_for('studentRevisit', applicationId=globaCurrentlId, required=required, userId=userId, studentId=studentId))
+    return redirect(url_for('studentRevisit', applicationId=globaCurrentlId, required=required, userId=userId, studentId=studentId, user_name=user_name))
 
 
 if __name__ == "__main__":
