@@ -14,7 +14,7 @@ body {
 
 header{
 position: fixed;
-background-color:#145077;
+background-color:#144f77f8;
 text-align: left;
 padding: 1px;
 padding-left: 10px;
@@ -24,17 +24,29 @@ z-index: 2;
 }
 
 .h1 {
-  font-size: 22px;
-  color: white;
-  margin-bottom: 30px;
+  font-family: 'Ravi Prakash', cursive;
+  font-size: 30px;
+  color: rgb(238, 238, 238);
+  margin-bottom: 16px;
+}
+
+.subttl{
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  position: fixed;
+  top:0.75cm;
+  left:2.8cm;
+  color: #ffeac7;
+  font-weight: normal;
 }
 
 .username {
+  font-family: 'Indie Flower', cursive;
   position: fixed;
   top: 0.44cm;
   right: 1.2cm;
   font-size: 20px;
-  color: white;
+  color: rgb(236, 236, 236);
 }
 
 .uicon{
@@ -195,7 +207,10 @@ z-index: 2;
   height: 28px;
   margin-top: 8px;
   margin-bottom: 10px;
-  border: 2px solid rgb(180, 178, 178);
+  border: 1px solid rgb(255 255 255);
+}
+.fill:focus{
+  outline: none;
 }
 .fill2 {
   width: 11.5vw;
@@ -208,21 +223,27 @@ z-index: 2;
   width: 15vw;
   border-radius: 0.1cm;
   margin-bottom: 10px;
+  border: none;
 }
-
+.drop:focus{
+  outline: none;
+}
+.fill:focus{
+  outline: none;
+}
 .ind {
   position: relative;
   width: 80px;
 }
 .fillbtn{
   width: 15vw;
-  background-color: #7f7f7f;
+  background-color: rgb(204 204 204);
   position: relative;
-  color: #e9e9e9;
+  color: white;
 }
 
 .fillbtn:hover{
-  color: #e9e9e9;
+  color: white;
 }
 
 .btn:active {
@@ -282,6 +303,11 @@ form .form-group {
   padding: 10px;
 }
 
+.panel-body{
+  background-color: #f5f5f5b6;
+  box-shadow: 0px 2px 7px 0px rgb(0 0 0 / 75%);
+}
+
 /* ========================================================================
   * Submission
   * ======================================================================== */
@@ -318,9 +344,8 @@ form .form-group {
   text-align: center;
   width: 35px;
 }
-.table-email tr.unread,
-.table-email tr.selected {
-  background-color: #eeeeee;
+.table-email tr.unread, .table-email tr.selected {
+  background-color: #e4e4e4;
 }
 .table-email .media {
   margin: 0px;

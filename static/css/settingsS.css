@@ -1,113 +1,113 @@
 body{
-    padding: 0;
-    margin: 0;
-    background-image: url(https://wallpaperaccess.com/full/433150.jpg);
-    background-size: cover;
+  padding: 0;
+  margin: 0;
+  background-image: url(https://www.itl.cat/pngfile/big/309-3094863_computer-security-cybersecurity-technology-background-cybersecurity-banner.jpg);
+  background-size: cover;
 }
 .settingmodel-mysettings {
-    background-color: #f2f2f2e7;
-    width: 550px;
-    height: 350px;
-    padding: 10px;
-    padding-left: 30px;
-    padding-bottom: 50px;
-  
-    border-radius: 20px;
-    box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
-  
-    position: fixed;
-    left: 50vw;
-    top: 50vh;
-  
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    font-size: 30px;
-  
-    font-family: "Roboto", sans-serif;
-  }
-  
-  .settingmodel-background {
-    background-color: rgba(0, 0, 0, 0.253);
-    width: 100%;
-    height: 100%;
-  
-    position: fixed;
-    left: 0;
-    top: 0;
-  
-    backdrop-filter: blur(2px);
-  
-    z-index: 1;
-  }
-  .box1 {
-    width: 340px;
-    border-radius: 0.15cm;
-    height: 35px;
-    font-size: 15px;
-    position: absolute;
-    left: 30%;
-    outline: none;
-    border: 1px solid #515152a9;
-  }
-  .setrow {
-    height: 17%;
-  }
-  .lab {
-    font-size: 14px;
-    display: inline-block;
-    float: left;
-    text-align: left;
-    padding-top: 12px;
-  }
-  #settingTit {
-    text-align: center;
-    padding: 25px;
-    margin: 0;
-  }
-  .fixed1 {
-    background-color: #eee;
-  }
-  
-  .settingmodel-close {
-    background-color: transparent;
-    border-style: none;
-    outline: none;
-    font-size: 30px;
-    position: absolute;
-    top: 4px;
-    right: 15px;
-  }
-  .settingmodel-close:hover {
-    color: rgb(146, 0, 0);
-  }
-  
-  .btnChange {
-    position: absolute;
-    right: 45px;
-    bottom: 30px;
-    border-radius: 0.2cm;
-    width: 90px;
-    height: 37px;
-    font-size: 16px;
-    color: #eee;
-    background-color: #378dbce0;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    box-shadow: #999;
-  }
-  
-  .btnChange:active {
-    transform: translateY(2px);
-  }
-  
-  .warnning {
-    color: rgb(146, 0, 0);
-    font-size: 16px;
-    margin-top: 0.1cm;
-    margin-left: 3.7cm;
-  }
-  
-  .Settinghidden {
-    display: none;
-  }
+  background-color: #f2f2f2cc;
+  width: 550px;
+  height: 350px;
+  padding: 10px;
+  padding-left: 30px;
+  padding-bottom: 50px;
+
+  border-radius: 20px;
+  box-shadow: 10px 10px 50px 0.1px rgba(0, 0, 0, 0.664);
+
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  font-size: 30px;
+
+  font-family: "Roboto", sans-serif;
+}
+
+.settingmodel-background {
+  background-color: rgba(0, 0, 0, 0.253);
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  backdrop-filter: blur(2px);
+
+  z-index: 1;
+}
+.box1 {
+  width: 340px;
+  border-radius: 0.15cm;
+  height: 35px;
+  font-size: 15px;
+  position: absolute;
+  left: 30%;
+  outline: none;
+  border: 1px solid #515152a9;
+}
+.setrow {
+  height: 17%;
+}
+.lab {
+  font-size: 14px;
+  display: inline-block;
+  float: left;
+  text-align: left;
+  padding-top: 12px;
+}
+#settingTit {
+  text-align: center;
+  padding: 25px;
+  margin: 0;
+}
+.fixed1 {
+  background-color: #eee;
+}
+
+.settingmodel-close {
+  background-color: transparent;
+  border-style: none;
+  outline: none;
+  font-size: 30px;
+  position: absolute;
+  top: 4px;
+  right: 15px;
+}
+.settingmodel-close:hover {
+  color: rgb(146, 0, 0);
+}
+
+.btnChange {
+  position: absolute;
+  right: 45px;
+  bottom: 30px;
+  border-radius: 0.2cm;
+  width: 90px;
+  height: 37px;
+  font-size: 16px;
+  color: #eee;
+  background-color: #378dbce0;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  box-shadow: #999;
+}
+
+.btnChange:active {
+  transform: translateY(2px);
+}
+
+.warnning {
+  color: rgb(146, 0, 0);
+  font-size: 16px;
+  margin-top: 0.1cm;
+  margin-left: 3.7cm;
+}
+
+.Settinghidden {
+  display: none;
+}

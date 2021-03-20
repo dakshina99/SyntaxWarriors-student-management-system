@@ -32,7 +32,7 @@ def login():
                         return redirect(url_for("staff", username=username))
         else:
             return redirect(url_for('login'))
-        return render_template('Index.html', InvalidPassword="Invalid username or password")
+        return render_template('Index.html', InvalidPassword="*Invalid username or password")
     return render_template('Index.html', InvalidPassword="")
 
 # check user before every request
@@ -152,7 +152,7 @@ def staff():
                         'administrators', username, newPassword)
                     dbObj.update_Userdata('users', username, newPassword)
                 else:
-                    return render_template('LDashboard.html', username=username, errorMessage="Invalid password")
+                    return render_template('LDashboard.html', username=username, errorMessage="⚠ Invalid password")
 
         # filtering process
         if request.form.get("filter"):
@@ -349,7 +349,7 @@ def studentRevisit():
 
     if request.form.get('add'):
         newComment = request.form['newComment']
-        today = datetime.today().strftime('%b %d')
+        today = datetime.today().strftime('%b %d at %H:%M')
         tempComments.append([newComment, today, '1'])
         if required == '1':
             return render_template("Resubmission.html", studentAdmissionNum=studentId, username=username, staffName=staffName, requestValue=requestValue, details=details, status=status, isnull=isnull, filename=filename, required=required, tempComments=tempComments, previousComments=previousComments)
@@ -441,7 +441,7 @@ def staffRevisit():
         'applications', applicationId)[0][11]
     if request.form.get('add'):
         newComment = request.form['newComment']
-        today = datetime.today().strftime('%b %d')
+        today = datetime.today().strftime('%b %d at %H:%M')
         tempComments.append([newComment, today, '0'])
         print(previousComments)
         print(tempComments)
@@ -473,7 +473,7 @@ def change():
                 dbObj.update_Userdata('users', username, newPassword)
                 return redirect(url_for('student', username=username))
             else:
-                return render_template('settigns.html', username=username, errorMessage="Invalid password")
+                return render_template('settigns.html', username=username, errorMessage="⚠ Invalid password")
 
         else:
             previousPassword = dbObj.searchDataFromStaffTable('administrators', username)[
@@ -485,7 +485,7 @@ def change():
                 dbObj.update_Userdata('users', username, newPassword)
                 return redirect(url_for('staff', username=username))
             else:
-                return render_template('settigns.html', username=username, errorMessage="Invalid password")
+                return render_template('settigns.html', username=username, errorMessage="⚠ Invalid password")
 
     if request.form.get("close"):
         if studentDetails != []:
@@ -527,23 +527,25 @@ def upload():
 
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
-
-    username = session['user']
-    userDetails = request.form
-    name = userDetails['studentName']
-    lecturer = userDetails['staffName']
-    requestType = userDetails['RequestType']
-    details = userDetails['subject']
-    staffId = dbObj.searchDataFromStaffTable(
-        'administrators', lecturer)[0][0]
-    studentId = dbObj.searchDataFromStudentTable(
-        'students', username)[0][0]
-    file = request.files['filename']
-    today = datetime.today().strftime('%b %d')
-    length = dbObj.readDataFromTable('student', 'applications')[-1][0]
-    dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
-    ), file.filename, studentId, staffId, requestType, today, '1', '0', '0')
-    return redirect(url_for('student', username=session['user']))
+    try:
+        username = session['user']
+        userDetails = request.form
+        name = userDetails['studentName']
+        lecturer = userDetails['staffName']
+        requestType = userDetails['RequestType']
+        details = userDetails['subject']
+        staffId = dbObj.searchDataFromStaffTable(
+            'administrators', lecturer)[0][0]
+        studentId = dbObj.searchDataFromStudentTable(
+            'students', username)[0][0]
+        file = request.files['filename']
+        today = datetime.today().strftime('%b %d')
+        length = dbObj.readDataFromTable('student', 'applications')[-1][0]
+        dbObj.insert_applicationData('applications', length+1, '1', details, file.read(
+        ), file.filename, studentId, staffId, requestType, today, '1', '0', '0')
+        return redirect(url_for('student', username=session['user']))
+    except:
+        return redirect(url_for('student', username=session['user']))
 
 # reupload evidence function
 
@@ -562,7 +564,6 @@ def upload2():
                          file.read(), file.filename)
     if file.filename != '':
         dbObj.updateApplicationMore('applications', globaCurrentlId, '0')
-    dbObj.updateApplicationStatus('applications', globaCurrentlId, '2')
     # create new application and delete previous
     today = datetime.today().strftime('%b %d')
     applicatonDetails = dbObj.searchDataFromApplicationTable(

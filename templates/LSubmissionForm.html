@@ -12,12 +12,12 @@
       href="https://semantic-ui.com/dist/semantic.min.css"
     />
 
-    <title>Application Form</title>
+    <title>Request Form</title>
   </head>
   <body class="outer">
     <form method="POST">
     <div class="Appcontainer">
-      <h1 class="Appheading">Application</h1>
+      <h1 class="Appheading">Request Form</h1>
       <form action="action_page.php">
         <div class="row">
           <div class="col-25">
@@ -142,20 +142,20 @@
                   {% if previousComments != [] %} {% for comment in
                       previousComments %} {% if comment[1]==1 %}
                       <li class="shout recieve">
-                        {{comment[4]}} : {{comment[2]}}
+                        <p class="date">{{comment[4]}}</p>{{comment[2]}}
                       </li>
                       {% else %}
                       <li class="shout sent">
-                        {{comment[2]}} : {{comment[4]}}
+                        {{comment[2]}}<p class="date">{{comment[4]}}</p>
                       </li>
                       {% endif %} {% endfor %} {% endif %} {% for comment in
                       tempComments %} {% if comment[2]=='1' %}
                       <li class="shout recieve">
-                        {{comment[1]}} : {{comment[0]}}
+                        <p class="date">{{comment[1]}}</p>{{comment[0]}}
                       </li>
                       {% else %}
                       <li class="shout sent">
-                        {{comment[0]}} : {{comment[1]}}
+                        {{comment[0]}}<p class="date">{{comment[1]}}</p>
                       </li>
                       {% endif %} {% endfor %}
                 </ul>
@@ -163,7 +163,7 @@
               <div id="input">
                 <input id="input" type="text" name="newComment" placeholder="Enter Your Message"/>
                 <button
-                  class="ui addcom button"
+                  class="addcom"
                   type="submit"
                   name="add"
                   value="add"
