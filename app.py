@@ -547,7 +547,7 @@ def upload():
     except:
         return redirect(url_for('student', username=session['user']))
 
-# reupload evidence function
+# reupload evidence func
 
 
 @ app.route('/upload2', methods=['POST'])
