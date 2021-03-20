@@ -162,6 +162,15 @@ class MySQLClient:
 
         print("Record updated successfully")
 
+    def updateCommentsThreadId(self, tableName, previousId, newId):
+        cursor = self.connection.cursor()
+        # Execute the query
+        query = """UPDATE `{}` SET idThreads=%s WHERE idThreads=%s;""".format(
+            tableName)
+        val = (newId, previousId)
+        cursor.execute(query, val)
+        self.connection.commit()
+
     def updateApplicationMore(self, tableName, idapplications, required):
         cursor = self.connection.cursor()
         # Execute the query
@@ -206,6 +215,14 @@ class MySQLClient:
         self.connection.commit()
 
         print("Record updated successfully")
+
+    def deleteApplication(self, tableName, idapplications):
+        cursor = self.connection.cursor()
+        query = """DELETE FROM `{}` WHERE idapplications=%s;""".format(
+            tableName)
+        val = (idapplications,)
+        cursor.execute(query, val)
+        self.connection.commit()
 
     def searchDataFromStudentTable(self, tableName, StudentUsername):
         # Read data from a table
@@ -277,6 +294,22 @@ class MySQLClient:
         # Execute the query
         cursor.execute(
             "SELECT * FROM {} WHERE from_id='{}'".format(tableName, from_id))
+        return cursor.fetchall()
+
+    def searchStudentRelatedApplicationIds(self, tableName, from_id):
+        # Read data from a table
+        cursor = self.connection.cursor()
+        # Execute the query
+        cursor.execute(
+            "SELECT idapplications FROM {} WHERE from_id='{}'".format(tableName, from_id))
+        return cursor.fetchall()
+
+    def searchStaffRelatedApplicationIds(self, tableName, to_id):
+        # Read data from a table
+        cursor = self.connection.cursor()
+        # Execute the query
+        cursor.execute(
+            "SELECT idapplications FROM {} WHERE to_id='{}'".format(tableName, to_id))
         return cursor.fetchall()
 
     def searchRelatedDataApplicationApplicationTable(self, tableName, idapplications):

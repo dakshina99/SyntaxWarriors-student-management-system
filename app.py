@@ -67,15 +67,17 @@ def student():
             if request.form.get("discardSview"):
                 return redirect(url_for('student', username=username))
             # fill read only values in student revisit form
-            for index in range(len(dbObj.readDataFromTable("student", "applications"))):
-                if request.form.get(str(index+1)):
+            # changed
+            for index in dbObj.searchStudentRelatedApplicationIds(
+                    'applications', userId):
+                if request.form.get(str(index[0])):
                     previousComments = dbObj.searchDataFromIdThreadsUsingCommentTable(
-                        'comments', str(index+1))
+                        'comments', str(index[0]))
                     dbObj.updateApplicationStudentRead(
-                        'applications', str(index+1), '1')
+                        'applications', str(index[0]), '1')
                     required = dbObj.searchDataFromApplicationTable(
-                        'applications', index+1)[0][11]
-                    return redirect(url_for('studentRevisit', applicationId=str(index+1), studentId=studentId, required=required, userId=userId))
+                        'applications', index[0])[0][11]
+                    return redirect(url_for('studentRevisit', applicationId=str(index[0]), studentId=studentId, required=required, userId=userId))
         # load leaderboard applications
         studentId = dbObj.searchDataFromStudentTable(
             'students', username)[0][0]
@@ -123,18 +125,19 @@ def staff():
     global previousComments
     previousComments = []
     username = request.args.get('username')
-    userId = request.args.get('userId')
     dbObj = MySQLClient('localhost', 'root', '', 'student')
+    userId = dbObj.searchDataFromUserTable('users', username)[0][0]
     if 'user' in session:
         if request.method == "POST":
             # fill read only values in student revisit form
-            for index in range(len(dbObj.readDataFromTable("student", "applications"))):
-                if request.form.get(str(index+1)):
+            # changed
+            for index in dbObj.searchStaffRelatedApplicationIds('applications', userId):
+                if request.form.get(str(index[0])):
                     previousComments = dbObj.searchDataFromIdThreadsUsingCommentTable(
-                        'comments', str(index+1))
+                        'comments', str(index[0]))
                     dbObj.updateApplicationStaffRead(
-                        'applications', str(index+1), '1')
-                    return redirect(url_for('staffRevisit', applicationId=str(index+1)))
+                        'applications', str(index[0]), '1')
+                    return redirect(url_for('staffRevisit', applicationId=str(index[0])))
 
             # for change password in staff profiles
             if request.form.get("changePassword"):
@@ -262,6 +265,21 @@ def studentRevisit():
     if request.form.get('submitSview'):
         dbObj.updateApplicationStaffRead('applications', applicationId, '0')
         if tempComments != []:
+            ##########################################################
+            #####################updated date in application when comment ######################
+            ##################get application details and insert data with updated today#####################
+            # create new application and delete previous
+            today = datetime.today().strftime('%b %d')
+            applicatonDetails = dbObj.searchDataFromApplicationTable(
+                'applications', globaCurrentlId)[0]
+            newIndex = dbObj.readDataFromTable(
+                'student', 'applications')[-1][0] + 1
+            dbObj.insert_applicationData('applications', newIndex, applicatonDetails[1], applicatonDetails[2], applicatonDetails[3], applicatonDetails[4], applicatonDetails[
+                5], applicatonDetails[6], applicatonDetails[7], today, applicatonDetails[9], applicatonDetails[10], applicatonDetails[11])
+            dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
+            dbObj.deleteApplication('applications', globaCurrentlId)
+            globaCurrentlId = newIndex
+            ##########################################################
             indexComment = len(dbObj.readDataFromTable('student', 'comments'))
             for comment in tempComments:
                 indexComment += 1
@@ -307,6 +325,21 @@ def studentRevisit():
     if request.form.get('RsubmitSview'):
         dbObj.updateApplicationStaffRead('applications', applicationId, '0')
         if tempComments != []:
+            ##########################################################
+            #####################updated date in application when comment ######################
+            ##################get application details and insert data with updated today#####################
+            # create new application and delete previous
+            today = datetime.today().strftime('%b %d')
+            applicatonDetails = dbObj.searchDataFromApplicationTable(
+                'applications', globaCurrentlId)[0]
+            newIndex = dbObj.readDataFromTable(
+                'student', 'applications')[-1][0] + 1
+            dbObj.insert_applicationData('applications', newIndex, applicatonDetails[1], applicatonDetails[2], applicatonDetails[3], applicatonDetails[4], applicatonDetails[
+                5], applicatonDetails[6], applicatonDetails[7], today, applicatonDetails[9], applicatonDetails[10], applicatonDetails[11])
+            dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
+            dbObj.deleteApplication('applications', globaCurrentlId)
+            globaCurrentlId = newIndex
+            ##########################################################
             indexComment = len(dbObj.readDataFromTable('student', 'comments'))
             for comment in tempComments:
                 indexComment += 1
@@ -349,6 +382,21 @@ def staffRevisit():
             'applications', applicationId, requestStatuss)
         dbObj.updateApplicationStudentRead('applications', applicationId, '0')
         if tempComments != []:
+            ##########################################################
+            #####################updated date in application when comment ######################
+            ##################get application details and insert data with updated today#####################
+            # create new application and delete previous
+            today = datetime.today().strftime('%b %d')
+            applicatonDetails = dbObj.searchDataFromApplicationTable(
+                'applications', globaCurrentlId)[0]
+            newIndex = dbObj.readDataFromTable(
+                'student', 'applications')[-1][0] + 1
+            dbObj.insert_applicationData('applications', newIndex, applicatonDetails[1], applicatonDetails[2], applicatonDetails[3], applicatonDetails[4], applicatonDetails[
+                5], applicatonDetails[6], applicatonDetails[7], today, applicatonDetails[9], applicatonDetails[10], applicatonDetails[11])
+            dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
+            dbObj.deleteApplication('applications', globaCurrentlId)
+            globaCurrentlId = newIndex
+            ##########################################################
             indexComment = len(dbObj.readDataFromTable('student', 'comments'))
             for comment in tempComments:
                 indexComment += 1
@@ -357,6 +405,8 @@ def staffRevisit():
         if request.form.get("more"):
             dbObj.updateApplicationMore('applications', applicationId, '1')
             dbObj.removeEvidence('applications', applicationId)
+        elif not(request.form.get("more")):
+            dbObj.updateApplicationMore('applications', applicationId, '0')
         return redirect(url_for('staff', username=username))
     if request.form.get("downloadFile"):
         return redirect(url_for("download_files", applicationId=applicationId))
@@ -461,7 +511,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@ app.route('/download')
+@ app.route('/download', methods=['GET', 'POST'])
 def download_files():
     dbObj = MySQLClient('localhost', 'root', '', 'student')
     global globaCurrentlId
@@ -495,6 +545,8 @@ def upload():
     ), file.filename, studentId, staffId, requestType, today, '1', '0', '0')
     return redirect(url_for('student', username=session['user']))
 
+# reupload evidence function
+
 
 @ app.route('/upload2', methods=['POST'])
 def upload2():
@@ -503,22 +555,27 @@ def upload2():
     global required
     global userId
     global studentId
-    dbObj = MySQLClient('localhost', 'root', '', 'student')
-    # try except is added to control discard button function and othrer errors(i.e: Invalid administrater name)
     global globaCurrentlId
-    print(globaCurrentlId, type(globaCurrentlId))
+    dbObj = MySQLClient('localhost', 'root', '', 'student')
     file = request.files['filename']
     dbObj.updateEvidence('applications', globaCurrentlId,
                          file.read(), file.filename)
     if file.filename != '':
         dbObj.updateApplicationMore('applications', globaCurrentlId, '0')
     dbObj.updateApplicationStatus('applications', globaCurrentlId, '2')
+    # create new application and delete previous
+    today = datetime.today().strftime('%b %d')
+    applicatonDetails = dbObj.searchDataFromApplicationTable(
+        'applications', globaCurrentlId)[0]
+    newIndex = dbObj.readDataFromTable('student', 'applications')[-1][0] + 1
+    dbObj.insert_applicationData('applications', newIndex, applicatonDetails[1], applicatonDetails[2], applicatonDetails[3], applicatonDetails[4], applicatonDetails[
+                                 5], applicatonDetails[6], applicatonDetails[7], today, applicatonDetails[9], applicatonDetails[10], applicatonDetails[11])
+    dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
+    dbObj.deleteApplication('applications', globaCurrentlId)
+    globaCurrentlId = newIndex
+
     return redirect(url_for('studentRevisit', applicationId=globaCurrentlId, required=required, userId=userId, studentId=studentId))
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-# LDashboard.html jinja for loop is moved error occured fix the loop
-# dddddddddddddddddddd
