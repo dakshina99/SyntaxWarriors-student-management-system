@@ -424,11 +424,22 @@ def staffRevisit():
                 indexComment += 1
                 dbObj.insert_commentData(
                     'comments', indexComment, "0", comment[0], globaCurrentlId, comment[1])
+        today = datetime.today().strftime('%b %d at %H:%M')
+        applicatonDetails = dbObj.searchDataFromApplicationTable(
+            'applications', globaCurrentlId)[0]
+        newIndex = dbObj.readDataFromTable(
+            'student', 'applications')[-1][0] + 1
+        dbObj.insert_applicationData('applications', newIndex, applicatonDetails[1], applicatonDetails[2], applicatonDetails[3], applicatonDetails[4], applicatonDetails[
+            5], applicatonDetails[6], applicatonDetails[7], today, applicatonDetails[9], applicatonDetails[10], applicatonDetails[11])
+        dbObj.updateCommentsThreadId('comments', globaCurrentlId, newIndex)
+        dbObj.deleteApplication('applications', globaCurrentlId)
+        globaCurrentlId = newIndex
         if request.form.get("more"):
-            dbObj.updateApplicationMore('applications', applicationId, '1')
-            dbObj.removeEvidence('applications', applicationId)
+            dbObj.updateApplicationMore(
+                'applications', newIndex, '1')
+            dbObj.removeEvidence('applications', newIndex)
         elif not(request.form.get("more")):
-            dbObj.updateApplicationMore('applications', applicationId, '0')
+            dbObj.updateApplicationMore('applications', newIndex, '0')
         return redirect(url_for('staff', username=username, user_name=user_name))
     if request.form.get("downloadFile"):
         return redirect(url_for("download_files", applicationId=applicationId, user_name=user_name))
