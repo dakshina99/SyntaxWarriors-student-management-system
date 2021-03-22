@@ -169,6 +169,7 @@ def staff():
             staffId = dbObj.searchDataFromStaffTable(
                 'administrators', username)[0][0]
             listOfApplications = []
+            unreadedCount = 0
             for application in dbObj.searchRelatedDataStaffApplicationTable('applications', staffId):
                 temp = []
                 requestType = application[7]
@@ -199,13 +200,15 @@ def staff():
                     requestValue = "Other"
                 sentDate = application[8]
                 staffReaded = application[10]
+                if staffReaded == "0":
+                    unreadedCount += 1
                 temp.append(application[0])
                 temp.append(studentName)
                 temp.append(requestValue)
                 temp.append(sentDate)
                 temp.append(staffReaded)
                 listOfApplications.append(temp)
-            return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=len(listOfApplications), user_name=user_name)
+            return render_template('LDashboard.html', username=username, applications=listOfApplications[::-1], length=unreadedCount, user_name=user_name)
 
         # load leaderboard applications
         staffId = dbObj.searchDataFromStaffTable(
