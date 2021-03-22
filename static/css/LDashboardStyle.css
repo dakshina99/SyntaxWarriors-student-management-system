@@ -243,6 +243,7 @@ z-index: 2;
 }
 
 .fillbtn:hover{
+  background-color: #999;
   color: white;
 }
 
